@@ -58,11 +58,32 @@
           ></v-text-field>
         </v-row>
         <v-row no-gutters>
+          <v-checkbox v-model="optOne" :label="`Car hire`"></v-checkbox>
+          <v-checkbox v-model="optTwo" :label="`Mileage cost`"></v-checkbox>
+          <v-checkbox v-model="optThree" :label="`Taxis`"></v-checkbox>
+          <v-checkbox v-model="optFour" :label="`Car parking`"></v-checkbox>
+          <v-checkbox v-model="optFive" :label="`Other`"></v-checkbox>
+        </v-row>
+        <v-row no-gutters>
+          <v-text-field
+            v-model="subValue"
+            type="number"
+            label="Subsistence"
+            hint="No dollar signs or commas"
+            prepend-icon="mdi-currency-usd"
+            :rules="subRules"
+            min="0"
+            step="0.01"
+            max="999999.99"
+          ></v-text-field>
+        </v-row>
+        <v-divider></v-divider>
+        <br />
+        <v-row no-gutters>
           <v-text-field
             v-model="totalValue"
-            readonly
-            type="number"
-            label="TOTAL"
+            disabled
+            label="Total Requested Fees"
             prepend-icon="mdi-currency-usd"
           ></v-text-field>
         </v-row>
@@ -79,10 +100,16 @@ export default {
     accValue: "",
     othValue: "",
     subValue: "",
+    optOne: false,
+    optTwo: false,
+    optThree: false,
+    optFour: false,
+    optFive: false,
+    optionsShown: false,
     feeRules: [
       v => !!v || "Fees are required",
       v => !(v < 0) || "Fees can not be less than 0",
-      v => !(v > 999999.99) || "Fees can not be greater than 999999.99", 
+      v => !(v > 999999.99) || "Fees can not be greater than 999999.99"
     ],
     travelRules: [
       v => !!v || "Travel expenses are required",
@@ -107,11 +134,25 @@ export default {
     ]
   }),
   computed: {
-    totalValue() {  return (parseFloat(this.feeValue) + parseFloat(this.travelValue) 
-        + parseFloat(this.accValue) + parseFloat(this.othValue) 
-        + parseFloat(this.subValue)).toString();
-         }
-    },
-  methods: {},
-}
+    totalValue() {
+      var total = 0;
+      var feeFloat = parseFloat(this.feeValue);
+      var travelFloat = parseFloat(this.travelValue);
+      var accFloat = parseFloat(this.accValue);
+      var othFloat = parseFloat(this.othValue);
+      var subFloat = parseFloat(this.subValue);
+      if (!isNaN(feeFloat)) total += feeFloat;
+      if (!isNaN(travelFloat)) total += travelFloat;
+      if (!isNaN(accFloat)) total = total + accFloat;
+      if (!isNaN(othFloat)) { total = total + othFloat; this.optionsShown = true;}
+      if (!isNaN(subFloat)) total = total - subFloat;
+
+      if (!isNaN(total) && total >= 0) return total;
+      else if (!isNaN(total) && total < 0)
+        return "Entered amount for subsistence is too great";
+      else return "";
+    }
+  },
+  methods: {}
+};
 </script>

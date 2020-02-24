@@ -9,11 +9,11 @@
 </template>
 
 <script>
-import travelFooter from '@/components/travelFooter'
-import navbar from '@/components/navbar'
+import travelFooter from "@/components/travelFooter";
+import navbar from "@/components/navbar";
 
 export default {
-  name: 'App',
+  name: "App",
 
   components: {
     travelFooter,
@@ -22,6 +22,6 @@ export default {
 
   data: () => ({
     //
-  }),
+  })
 };
 </script>
