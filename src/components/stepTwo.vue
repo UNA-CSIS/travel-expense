@@ -57,13 +57,28 @@
             max="999999.99"
           ></v-text-field>
         </v-row>
-        <v-row no-gutters>
-          <v-checkbox v-model="optOne" :label="`Car hire`"></v-checkbox>
-          <v-checkbox v-model="optTwo" :label="`Mileage cost`"></v-checkbox>
-          <v-checkbox v-model="optThree" :label="`Taxis`"></v-checkbox>
-          <v-checkbox v-model="optFour" :label="`Car parking`"></v-checkbox>
-          <v-checkbox v-model="optFive" :label="`Other`"></v-checkbox>
-        </v-row>
+        <v-container v-if="othValue > 0">
+          <v-row no-gutters>
+            <v-col cols="20%">
+              <v-checkbox v-model="optOne" :label="`Car hire`"></v-checkbox>
+            </v-col>
+            <v-col cols="20%">
+              <v-checkbox v-model="optTwo" :label="`Mileage cost`"></v-checkbox>
+            </v-col>
+            <v-col cols="20%">
+              <v-checkbox v-model="optThree" :label="`Taxis`"></v-checkbox>
+            </v-col>
+            <v-col cols="20%">
+              <v-checkbox v-model="optFour" :label="`Car parking`"></v-checkbox>
+            </v-col>
+            <v-col cols="205">
+              <v-checkbox v-model="optFive" :label="`Other`"></v-checkbox>
+            </v-col>
+          </v-row>
+          <v-row v-if="optFive" no-gutters>
+            <v-textarea label="Details for other fees" auto-grow required :rules="detailsRules" outlined></v-textarea>
+          </v-row>
+        </v-container>
         <v-row no-gutters>
           <v-text-field
             v-model="subValue"
@@ -131,7 +146,10 @@ export default {
     subRules: [
       v => !(v < 0) || "Subsistence can not be less than 0",
       v => !(v > 999999.99) || "Subsistance can not be greater than 999999.99"
-    ]
+    ],
+    detailsRules: [
+      v => !!v || "Details are required",
+    ],
   }),
   computed: {
     totalValue() {
@@ -144,7 +162,7 @@ export default {
       if (!isNaN(feeFloat)) total += feeFloat;
       if (!isNaN(travelFloat)) total += travelFloat;
       if (!isNaN(accFloat)) total = total + accFloat;
-      if (!isNaN(othFloat)) { total = total + othFloat; this.optionsShown = true;}
+      if (!isNaN(othFloat)) total = total + othFloat;
       if (!isNaN(subFloat)) total = total - subFloat;
 
       if (!isNaN(total) && total >= 0) return total;
