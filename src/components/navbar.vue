@@ -17,7 +17,7 @@
                 </v-toolbar-title>
             </v-app-bar>
         </v-card>
-            <v-navigation-drawer v-model="drawer" app class="deep-purple accent-4">
+            <v-navigation-drawer v-model="drawer" app class="deep-purple accent-10">
 
                 <v-btn
                     color="yellow"

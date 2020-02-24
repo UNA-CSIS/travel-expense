@@ -15,6 +15,7 @@
             <v-btn color="primary" @click="e6 = 2">Next</v-btn>
           </v-stepper-content>
           <v-stepper-content :step="2">
+            <stepTwo />
             <v-btn color="primary" @click="e6 = 3">Next</v-btn>
           </v-stepper-content>
           <v-stepper-content :step="3">
@@ -28,10 +29,12 @@
 
 <script>
 import stepOne from "@/components/stepOne";
+import stepTwo from "@/components/stepTwo";
 
 export default {
   components: {
-    stepOne
+    stepOne,
+    stepTwo,
   },
   data: () => ({
     e6: 1
