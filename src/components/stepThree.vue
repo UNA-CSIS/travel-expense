@@ -3,6 +3,7 @@
     <v-row no-gutters justify="center">
       <v-col cols="3" style="min-width: 100px" class="flex-grow-1 flex-shrink 0">
         <v-select
+          name="activityInformation"
           v-model="choice"
           :items="items"
           label="Activity Information"

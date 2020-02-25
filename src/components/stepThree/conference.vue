@@ -2,6 +2,7 @@
   <nav>
     <v-row no-gutters>
       <v-textarea
+        name="conferenceReason"
         v-model="reasons"
         label="Reason(s)"
         hint="Please provide specific reason for this trip (e.g. presenting a paper, member of 
@@ -15,6 +16,7 @@
     </v-row>
     <v-row no-gutters>
       <v-text-field
+        name="conferenceTitle"
         v-model="title"
         label="Title"
         hint="Please provide title of Conference/Seminar"
@@ -35,6 +37,7 @@
       >
         <template v-slot:activator="{ on }">
           <v-text-field
+            name="conferenceDates"
             v-model="dateRangeText"
             :rules="dateRules"
             label="Conference/Seminar Date(s)"
@@ -51,10 +54,11 @@
       </v-menu>
     </v-row>
     <v-row no-gutters>
-      <v-text-field v-model="site" label="Conference/Seminar Web Site" hint="If applicable"></v-text-field>
+      <v-text-field name="conferenceWebsite" v-model="site" label="Conference/Seminar Web Site" hint="If applicable"></v-text-field>
     </v-row>
     <v-row no-gutters>
       <v-textarea
+        name="conferenceOther"
         v-model="other"
         label="Other"
         hint="If none of the above applies (e.g. no paper submitted/or no planned presentation),

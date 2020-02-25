@@ -2,6 +2,7 @@
   <nav>
     <v-row no-gutters>
       <v-textarea
+        name="meetings"
         v-model="meetings"
         label="Meeting(s)"
         :rules="meetingRules"
@@ -12,6 +13,7 @@
     </v-row>
     <v-row no-gutters>
       <v-textarea
+        name="attendees"
         v-model="attendees"
         label="Attendee(s) names & organisations"
         :rules="attendeeRules"
@@ -22,6 +24,7 @@
     </v-row>
     <v-row no-gutters>
       <v-menu
+        
         ref="dateMenu"
         v-model="dateMenu"
         :close-on-content-click="false"
@@ -33,6 +36,7 @@
       >
         <template v-slot:activator="{ on }">
           <v-text-field
+            name="meetingDates"
             v-model="dateRangeText"
             :rules="dateRules"
             label="Date of meeting(s)"
@@ -50,6 +54,7 @@
     </v-row>
     <v-row no-gutters>
       <v-menu
+        
         ref="timeMenu"
         v-model="timeMenu"
         :close-on-content-click="false"
@@ -61,7 +66,7 @@
         min-width="290px"
       >
         <template v-slot:activator="{ on }">
-          <v-text-field v-model="time" label="Time of meeting(s)" prepend-icon="mdi-clock-outline" readonly v-on="on"></v-text-field>
+          <v-text-field name="meetingTime" v-model="time" label="Time of meeting(s)" prepend-icon="mdi-clock-outline" readonly v-on="on"></v-text-field>
         </template>
         <v-time-picker
           v-if="timeMenu"
@@ -73,6 +78,7 @@
     </v-row>
     <v-row no-gutters>
       <v-text-field
+        name="role"
         v-model="role"
         label="Role in meeting(s)"
         :rules="roleRules"
@@ -81,7 +87,7 @@
       ></v-text-field>
     </v-row>
     <v-row no-gutters>
-      <v-text-field v-model="purpose" label="Purpose in meeting(s)" :rules="purposeRules" required></v-text-field>
+      <v-text-field name="purpose" v-model="purpose" label="Purpose in meeting(s)" :rules="purposeRules" required></v-text-field>
     </v-row>
   </nav>
 </template>
