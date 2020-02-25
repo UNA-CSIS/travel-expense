@@ -72,7 +72,7 @@
 export default {
   data: () => ({
     name: "",
-    nameRules: [v => !!v || "Name is requi"],
+    nameRules: [v => !!v || "Name is required"],
     dept: "",
     deptRules: [v => !!v || "Department is required"],
     dest: "",
@@ -87,7 +87,9 @@ export default {
   }),
   computed: {
     dateRangeText() {
-      if (this.dates[0] != "") return this.dates.join(" - ");
+      if (this.dates[0] != "" && this.dates[0] == this.dates[1])
+        return this.dates[0];
+      if(this.dates[0] != "") return this.dates.join(" - ");
       else return "";
     }
   }
