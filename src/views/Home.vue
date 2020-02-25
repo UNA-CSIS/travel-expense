@@ -11,15 +11,36 @@
       <v-stepper-items>
         <v-stepper-content :step="1">
           <stepOne />
-          <v-btn color="primary" @click="e6 = 2">Next</v-btn>
+          <v-row no-gutters>
+            <v-col cols="6"></v-col>
+            <v-col cols="5">
+              <v-btn color="primary" :disabled="!stepOneComplete" @click="e6 = 2">Next</v-btn>
+            </v-col>
+          </v-row>
         </v-stepper-content>
         <v-stepper-content :step="2">
           <stepTwo />
-          <v-btn color="primary" @click="e6 = 3">Next</v-btn>
+          <v-row no-gutters>
+            <v-col cols="5"></v-col>
+            <v-col cols="1">
+              <v-btn color="primary" @click="e6 = 1">Back</v-btn>
+            </v-col>
+            <v-col cols="5">
+              <v-btn color="primary" :disabled="stepTwoComplete" @click="e6 = 3">Next</v-btn>
+            </v-col>
+          </v-row>
         </v-stepper-content>
         <v-stepper-content :step="3">
           <stepThree />
-          <v-btn color="primary" @click="e6 = 4">Submit</v-btn>
+          <v-row no-gutters>
+            <v-col cols="5"></v-col>
+            <v-col cols="1">
+              <v-btn color="primary" @click="e6 = 2">Back</v-btn>
+            </v-col>
+            <v-col cols="5">
+              <v-btn color="primary" :disabled!=stepThreeComplete @click="e6 = 4">Submit</v-btn>
+            </v-col>
+          </v-row>
         </v-stepper-content>
       </v-stepper-items>
     </v-stepper>
@@ -35,11 +56,13 @@ export default {
   components: {
     stepOne,
     stepTwo,
-    stepThree,
+    stepThree
   },
   data: () => ({
     e6: 1,
-
+    stepOneComplete: stepOne.complete,
+    stepTwoComplete: stepTwo.complete,
+    stepThreeComplete: stepThree.complete
   }),
   computed: {
     bDis(e6) {

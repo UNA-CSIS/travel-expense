@@ -25,21 +25,25 @@
         <div v-else-if="choice == 'Other Activity'">
           <eventother />
         </div>
-        <v-divider></v-divider>
-        <v-row no-gutters v-if="choice != ''">
-          <v-col cols="6" style="min-width: 100px">
-            <v-text-field
-              v-model="signature"
-              label="Traveler's Signature"
-              :rules="signatureRules"
-              required
-            ></v-text-field>
-          </v-col>
-          <v-col cols="1" style="min-width: 100px"></v-col>
-          <v-col cols="3" style="min-width: 100px">
-            <v-text-field v-model="date" label="Date" required :disabled=true></v-text-field>
-          </v-col>
-        </v-row>
+        <div v-if="choice != ''">
+          <br />
+          <v-divider></v-divider>
+          <br />
+          <v-row no-gutters>
+            <v-col cols="6" style="min-width: 100px">
+              <v-text-field
+                v-model="signature"
+                label="Traveler's Signature"
+                :rules="signatureRules"
+                required
+              ></v-text-field>
+            </v-col>
+            <v-col cols="1" style="min-width: 100px"></v-col>
+            <v-col cols="3" style="min-width: 100px">
+              <v-text-field v-model="date" label="Date" required disabled></v-text-field>
+            </v-col>
+          </v-row>
+        </div>
       </v-col>
     </v-row>
   </nav>
@@ -59,7 +63,7 @@ export default {
   data: () => ({
     choice: "",
     signature: "",
-    date: new Date().toString(),
+    date: new Date().toDateString(),
     items: [
       "Attendance at Conference or Seminar",
       "Business Meeting",
@@ -68,6 +72,15 @@ export default {
     ],
     actChoiceRules: [v => !!v || "Required"],
     signatureRules: [v => !!v || "Travler's signature is required"]
-  })
+  }),
+  computed: {
+  complete() {
+      if (this.choice != "" && this.signature != "") {
+
+        return true;
+      } else
+        return false;
+    }
+  }
 };
 </script>
