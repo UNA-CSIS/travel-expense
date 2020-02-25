@@ -1,7 +1,7 @@
 <template>
   <nav>
     <v-row no-gutters justify="center">
-      <v-col cols="3" style="min-width: 100px" class="flex-grow-1 flex-shrink 0">
+      <v-col cols="3" style="min-width: 100px" class="flex-grow-1 flex-shrink-0">
         <v-select
           v-model="choice"
           :items="items"
@@ -12,7 +12,7 @@
       </v-col>
     </v-row>
     <v-row no-gutters justify="center">
-      <v-col cols="8" style="min-width: 100px" class="flex-grow-1 flex-shrink 0">
+      <v-col cols="8" style="min-width: 100px" class="flex-grow-1 flex-shrink-0">
         <div v-if="choice == 'Attendance at Conference or Seminar'">
           <conference />
         </div>
@@ -20,11 +20,21 @@
           <meeting />
         </div>
         <div v-else-if="choice == 'Marketing/Recruitment Event'">
-          <event />
+          <eventother />
         </div>
         <div v-else-if="choice == 'Other Activity'">
-          <other />
+          <eventother />
         </div>
+        <v-divider></v-divider>
+        <v-row no-gutters v-if="choice != ''">
+          <v-col cols="6" style="min-width: 100px">
+            <v-text-field v-model="signature" label="Traveler's Signature"></v-text-field>
+          </v-col>
+          <v-col cols="1" style="min-width: 100px"></v-col>
+          <v-col cols="3" style="min-width: 100px">
+            <v-text-field v-model="date" label="Date" disabled></v-text-field>
+          </v-col>
+        </v-row>
       </v-col>
     </v-row>
   </nav>
@@ -33,27 +43,26 @@
 <script>
 import conference from "@/components/stepThree/conference";
 import meeting from "@/components/stepThree/meeting";
-import event from "@/components/stepThree/event";
-import other from "@/components/stepThree/other";
+import eventother from "@/components/stepThree/eventother";
 
 export default {
   components: {
     conference,
     meeting,
-    event,
-    other
+    eventother,
   },
   data: () => ({
     choice: "",
+    signature: "",
+    date: new Date().toDateString(),
     items: [
       "Attendance at Conference or Seminar",
       "Business Meeting",
       "Marketing/Recruitment Event",
       "Other Activity"
     ],
-    actChoiceRules: [v => !!v || "Required"],
+    actChoiceRules: [v => !!v || "Required"]
   }),
-  computed: {
-  }
+  computed: {}
 };
 </script>

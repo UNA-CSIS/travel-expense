@@ -59,24 +59,30 @@
         </v-row>
         <v-container v-if="othValue > 0">
           <v-row no-gutters>
-            <v-col cols="20%">
+            <v-col cols="2">
               <v-checkbox v-model="optOne" :label="`Car hire`"></v-checkbox>
             </v-col>
-            <v-col cols="20%">
+            <v-col cols="3">
               <v-checkbox v-model="optTwo" :label="`Mileage cost`"></v-checkbox>
             </v-col>
-            <v-col cols="20%">
+            <v-col cols="2">
               <v-checkbox v-model="optThree" :label="`Taxis`"></v-checkbox>
             </v-col>
-            <v-col cols="20%">
+            <v-col cols="3">
               <v-checkbox v-model="optFour" :label="`Car parking`"></v-checkbox>
             </v-col>
-            <v-col cols="205">
+            <v-col cols="2">
               <v-checkbox v-model="optFive" :label="`Other`"></v-checkbox>
             </v-col>
           </v-row>
           <v-row v-if="optFive" no-gutters>
-            <v-textarea label="Details for other fees" auto-grow required :rules="detailsRules" outlined></v-textarea>
+            <v-textarea
+              label="Details for other fees"
+              auto-grow
+              required
+              :rules="detailsRules"
+              outlined
+            ></v-textarea>
           </v-row>
         </v-container>
         <v-row no-gutters>
@@ -147,9 +153,7 @@ export default {
       v => !(v < 0) || "Subsistence can not be less than 0",
       v => !(v > 999999.99) || "Subsistance can not be greater than 999999.99"
     ],
-    detailsRules: [
-      v => !!v || "Details are required",
-    ],
+    detailsRules: [v => !!v || "Details are required"]
   }),
   computed: {
     totalValue() {

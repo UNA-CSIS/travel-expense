@@ -35,7 +35,8 @@ export default {
   components: {
     stepOne,
     stepTwo,
-    stepThree
+    stepThree,
+    
   },
   data: () => ({
     e6: 1
