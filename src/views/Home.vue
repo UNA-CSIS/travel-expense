@@ -36,10 +36,10 @@ export default {
     stepOne,
     stepTwo,
     stepThree,
-    
   },
   data: () => ({
-    e6: 1
+    e6: 1,
+
   }),
   computed: {
     bDis(e6) {

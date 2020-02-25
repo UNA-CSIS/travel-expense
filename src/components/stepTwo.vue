@@ -175,6 +175,5 @@ export default {
       else return "";
     }
   },
-  methods: {}
 };
 </script>

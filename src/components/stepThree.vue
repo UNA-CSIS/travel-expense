@@ -28,11 +28,16 @@
         <v-divider></v-divider>
         <v-row no-gutters v-if="choice != ''">
           <v-col cols="6" style="min-width: 100px">
-            <v-text-field v-model="signature" label="Traveler's Signature"></v-text-field>
+            <v-text-field
+              v-model="signature"
+              label="Traveler's Signature"
+              :rules="signatureRules"
+              required
+            ></v-text-field>
           </v-col>
           <v-col cols="1" style="min-width: 100px"></v-col>
           <v-col cols="3" style="min-width: 100px">
-            <v-text-field v-model="date" label="Date" disabled></v-text-field>
+            <v-text-field v-model="date" label="Date" required :disabled=true></v-text-field>
           </v-col>
         </v-row>
       </v-col>
@@ -49,20 +54,20 @@ export default {
   components: {
     conference,
     meeting,
-    eventother,
+    eventother
   },
   data: () => ({
     choice: "",
     signature: "",
-    date: new Date().toDateString(),
+    date: new Date().toString(),
     items: [
       "Attendance at Conference or Seminar",
       "Business Meeting",
       "Marketing/Recruitment Event",
       "Other Activity"
     ],
-    actChoiceRules: [v => !!v || "Required"]
-  }),
-  computed: {}
+    actChoiceRules: [v => !!v || "Required"],
+    signatureRules: [v => !!v || "Travler's signature is required"]
+  })
 };
 </script>
