@@ -1,5 +1,5 @@
 <template>
-  <v-form ref="form" v-model="valid" lazy-validation>
+  <v-form method="post" action="http://localhost:8888/api/user" ref="form" v-model="valid" lazy-validation>
     <v-stepper class="mt-12">
       <v-stepper-header>
         <v-stepper-step step="1" editable :complete="e6 >1">General Information</v-stepper-step>
@@ -18,8 +18,7 @@
           <v-btn color="primary" @click="e6 = 3">Next</v-btn>
         </v-stepper-content>
         <v-stepper-content :step="3">
-          <stepThree />
-          <v-btn color="primary" @click="e6 = 4">Submit</v-btn>
+          <v-btn type="submit" color="primary" @click="e6 = 4">Submit</v-btn>
         </v-stepper-content>
       </v-stepper-items>
     </v-stepper>
@@ -29,13 +28,11 @@
 <script>
 import stepOne from "@/components/stepOne";
 import stepTwo from "@/components/stepTwo";
-import stepThree from "@/components/stepThree";
 
 export default {
   components: {
     stepOne,
-    stepTwo,
-    stepThree
+    stepTwo
   },
   data: () => ({
     e6: 1
@@ -47,4 +44,6 @@ export default {
     }
   }
 };
+
+
 </script>

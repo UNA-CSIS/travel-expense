@@ -4,6 +4,7 @@
       <v-col cols="8" style="min-width: 100px" class="flex-grow-1 flex-shrink 0">
         <v-row no-gutters>
           <v-text-field
+            name="fees"
             v-model="feeValue"
             required
             type="number"
@@ -18,6 +19,7 @@
         </v-row>
         <v-row no-gutters>
           <v-text-field
+            name="expenses"
             v-model="travelValue"
             required
             type="number"
@@ -32,6 +34,7 @@
         </v-row>
         <v-row no-gutters>
           <v-text-field
+            name="accomodation"
             v-model="accValue"
             required
             type="number"
@@ -46,6 +49,7 @@
         </v-row>
         <v-row no-gutters>
           <v-text-field
+            name="other"
             v-model="othValue"
             type="number"
             label="Other fees"
@@ -57,30 +61,16 @@
             max="999999.99"
           ></v-text-field>
         </v-row>
-        <v-container v-if="othValue > 0">
-          <v-row no-gutters>
-            <v-col cols="20%">
-              <v-checkbox v-model="optOne" :label="`Car hire`"></v-checkbox>
-            </v-col>
-            <v-col cols="20%">
-              <v-checkbox v-model="optTwo" :label="`Mileage cost`"></v-checkbox>
-            </v-col>
-            <v-col cols="20%">
-              <v-checkbox v-model="optThree" :label="`Taxis`"></v-checkbox>
-            </v-col>
-            <v-col cols="20%">
-              <v-checkbox v-model="optFour" :label="`Car parking`"></v-checkbox>
-            </v-col>
-            <v-col cols="205">
-              <v-checkbox v-model="optFive" :label="`Other`"></v-checkbox>
-            </v-col>
-          </v-row>
-          <v-row v-if="optFive" no-gutters>
-            <v-textarea label="Details for other fees" auto-grow required :rules="detailsRules" outlined></v-textarea>
-          </v-row>
-        </v-container>
+        <v-row no-gutters>
+          <v-checkbox name="carHire" v-model="optOne" :label="`Car hire`"></v-checkbox>
+          <v-checkbox name="mileage" v-model="optTwo" :label="`Mileage cost`"></v-checkbox>
+          <v-checkbox name="taxis" v-model="optThree" :label="`Taxis`"></v-checkbox>
+          <v-checkbox name="carParking" v-model="optFour" :label="`Car parking`"></v-checkbox>
+          <v-checkbox name="otherFees" v-model="optFive" :label="`Other`"></v-checkbox>
+        </v-row>
         <v-row no-gutters>
           <v-text-field
+            name="subsistence"
             v-model="subValue"
             type="number"
             label="Subsistence"
@@ -96,6 +86,7 @@
         <br />
         <v-row no-gutters>
           <v-text-field
+            name="total"
             v-model="totalValue"
             disabled
             label="Total Requested Fees"
@@ -146,10 +137,7 @@ export default {
     subRules: [
       v => !(v < 0) || "Subsistence can not be less than 0",
       v => !(v > 999999.99) || "Subsistance can not be greater than 999999.99"
-    ],
-    detailsRules: [
-      v => !!v || "Details are required",
-    ],
+    ]
   }),
   computed: {
     totalValue() {
@@ -162,7 +150,7 @@ export default {
       if (!isNaN(feeFloat)) total += feeFloat;
       if (!isNaN(travelFloat)) total += travelFloat;
       if (!isNaN(accFloat)) total = total + accFloat;
-      if (!isNaN(othFloat)) total = total + othFloat;
+      if (!isNaN(othFloat)) { total = total + othFloat; /*this.optionsShown = true;*/}
       if (!isNaN(subFloat)) total = total - subFloat;
 
       if (!isNaN(total) && total >= 0) return total;

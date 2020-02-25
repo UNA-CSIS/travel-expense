@@ -3,16 +3,17 @@
     <v-row no-gutters justify="center">
       <v-col cols="8" style="min-width: 100px" class="flex-grow-1 flex-shrink 0">
         <v-row no-gutters>
-          <v-text-field v-model="name" :rules="nameRules" label="Name" required></v-text-field>
+          <v-text-field name="name" v-model="name" :rules="nameRules" label="Name" required></v-text-field>
         </v-row>
         <v-row no-gutters>
-          <v-text-field v-model="dept" :rules="deptRules" label="Department" required></v-text-field>
+          <v-text-field name="dept" v-model="dept" :rules="deptRules" label="Department" required></v-text-field>
         </v-row>
         <v-row no-gutters>
-          <v-text-field v-model="dest" :rules="destRules" label="Destination" required></v-text-field>
+          <v-text-field name="dest" v-model="dest" :rules="destRules" label="Destination" required></v-text-field>
         </v-row>
         <v-row no-gutters>
           <v-menu
+            name="dates"
             ref="menu"
             v-model="menu"
             :close-on-content-click="false"
@@ -24,6 +25,7 @@
           >
             <template v-slot:activator="{ on }">
               <v-text-field
+                name="travelDates"
                 v-model="dateRangeText"
                 :rules="travelRules"
                 label="Travel Dates"
@@ -70,7 +72,7 @@
 export default {
   data: () => ({
     name: "",
-    nameRules: [v => !!v || "Name is required"],
+    nameRules: [v => !!v || "Name is requi"],
     dept: "",
     deptRules: [v => !!v || "Department is required"],
     dest: "",
