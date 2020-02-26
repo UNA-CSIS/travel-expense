@@ -23,6 +23,7 @@ export default (app, http) => {
     let otherExpenses = request.body.other;
     let subsistence = request.body.subsistence;
     let activityInformation = request.body.activityInformation;
+    let signature = request.body.signature;
     if (activityInformation == 'Attendance at Conference or Seminar') {
         let conferenceReason = request.body.conferenceReason;
         let conferenceTitle = request.body.conferenceTitle;
@@ -32,7 +33,7 @@ export default (app, http) => {
         var data = {name: name, department: department, destination: destination, 
                 travelDates: travelDates, reason: reason, plan: plan, fees: fees, expenses: expenses,
                 accomodation: accomodation, otherExpenses: otherExpenses, subsistence: subsistence,
-                activityInformation: activityInformation, conferenceReason: conferenceReason, conferenceTitle: conferenceTitle,
+                activityInformation: activityInformation, signature: signature, conferenceReason: conferenceReason, conferenceTitle: conferenceTitle,
                 conferenceDates: conferenceDates, conferenceWebsite: conferenceWebsite, conferenceOther: conferenceOther};
     }
     else if (activityInformation == 'Business Meeting') {
@@ -45,14 +46,22 @@ export default (app, http) => {
         var data = {name: name, department: department, destination: destination, 
           travelDates: travelDates, reason: reason, plan: plan, fees: fees, expenses: expenses,
           accomodation: accomodation, otherExpenses: otherExpenses, subsistence: subsistence,
-          activityInformation: activityInformation, meetings: meetings, attendees: attendees, meetingDates: meetingDates,
+          activityInformation: activityInformation, signature: signature, meetings: meetings, attendees: attendees, meetingDates: meetingDates,
           meetingTime: meetingTime, role: role, purpose: purpose};
     }
+    else if (activityInformation == 'Marketing/Recruitment Event') {
+      let otherReason = request.body.otherReason;
+      var data = {name: name, department: department, destination: destination, 
+        travelDates: travelDates, reason: reason, plan: plan, fees: fees, expenses: expenses,
+        accomodation: accomodation, otherExpenses: otherExpenses, subsistence: subsistence,
+        activityInformation: activityInformation, signature: signature, otherReason: otherReason};
+    }
+
     else {
       var data = {name: name, department: department, destination: destination, 
         travelDates: travelDates, reason: reason, plan: plan, fees: fees, expenses: expenses,
         accomodation: accomodation, otherExpenses: otherExpenses, subsistence: subsistence,
-        activityInformation: activityInformation};
+        activityInformation: activityInformation, signature: signature}
     }
     //Validate data
 
@@ -63,13 +72,13 @@ export default (app, http) => {
       
       dbo.collection("expenseReports").insertOne(data, function(err, response) {
         if (err) throw err;
-        ("Insert successful");
         client.close();
       });
       
     });
     //Respond with a page displaying the data again?
-    response.send("Data sent to database");
+    console.log(data);
+    response.redirect("http://localhost:8080");
   });
 
   app.get('/', function(request, response) {

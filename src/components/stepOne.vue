@@ -1,5 +1,6 @@
 <template>
   <nav>
+    <!--<v-form ref="stepOneForm" v-model="valid" lazy-validation>-->
     <v-row no-gutters justify="center">
       <v-col cols="8" style="min-width: 100px" class="flex-grow-1 flex-shrink 0">
         <v-row no-gutters>
@@ -34,7 +35,13 @@
                 v-on="on"
               ></v-text-field>
             </template>
-            <v-date-picker v-model="dates" no-title scrollable range>
+            <v-date-picker 
+            v-model="dates" 
+            no-title 
+            scrollable 
+            range 
+            header-date-format="mm/dd/yyyy"
+            >
               <v-spacer></v-spacer>
               <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
               <v-btn text color="primary" @click="$refs.menu.save(date)">Ok</v-btn>
@@ -65,12 +72,14 @@
         </v-row>
       </v-col>
     </v-row>
+   <!-- </v-form> -->
   </nav>
 </template>
 
 <script>
 export default {
   data: () => ({
+    valid: false,
     name: "",
     nameRules: [v => !!v || "Name is required"],
     dept: "",
@@ -91,6 +100,17 @@ export default {
         return this.dates[0];
       if(this.dates[0] != "") return this.dates.join(" - ");
       else return "";
+    },
+    complete() {
+      if (this.name == "" ||
+        this.dept == "" ||
+        this.dest == "" ||
+        this.dates[0] == "" ||
+        this.reason == "" ||
+        this.itinerary == ""
+        )
+          return false;
+        else return true;
     }
   }
 };

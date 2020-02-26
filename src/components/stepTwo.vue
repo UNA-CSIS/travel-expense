@@ -61,13 +61,34 @@
             max="999999.99"
           ></v-text-field>
         </v-row>
+        <v-container v-if="othValue > 0">
         <v-row no-gutters>
-          <v-checkbox name="carHire" v-model="optOne" :label="`Car hire`"></v-checkbox>
-          <v-checkbox name="mileage" v-model="optTwo" :label="`Mileage cost`"></v-checkbox>
-          <v-checkbox name="taxis" v-model="optThree" :label="`Taxis`"></v-checkbox>
-          <v-checkbox name="carParking" v-model="optFour" :label="`Car parking`"></v-checkbox>
-          <v-checkbox name="otherFees" v-model="optFive" :label="`Other`"></v-checkbox>
+          <v-col cols="2">
+            <v-checkbox name="carHire" v-model="optOne" :label="`Car hire`"></v-checkbox>
+          </v-col>
+          <v-col cols="3">
+            <v-checkbox name="mileage" v-model="optTwo" :label="`Mileage cost`"></v-checkbox>
+          </v-col>
+          <v-col cols="2">
+            <v-checkbox name="taxis" v-model="optThree" :label="`Taxis`"></v-checkbox>
+          </v-col>
+          <v-col cols="3">
+            <v-checkbox name="carParking" v-model="optFour" :label="`Car parking`"></v-checkbox>
+          </v-col>
+          <v-col cols="2">
+            <v-checkbox name="otherFees" v-model="optFive" :label="`Other`"></v-checkbox>
+          </v-col>
         </v-row>
+        <v-row v-if="optFive" no-gutters>
+            <v-textarea
+             label="Details for other fees"
+             auto-grow 
+             required 
+             :rules="detailsRules" 
+             outlined
+             ></v-textarea>
+          </v-row>
+        </v-container>
         <v-row no-gutters>
           <v-text-field
             name="subsistence"
@@ -137,7 +158,8 @@ export default {
     subRules: [
       v => !(v < 0) || "Subsistence can not be less than 0",
       v => !(v > 999999.99) || "Subsistance can not be greater than 999999.99"
-    ]
+    ],
+    detailsRules: [v => !!v || "Details are required"]
   }),
   computed: {
     totalValue() {
@@ -150,15 +172,20 @@ export default {
       if (!isNaN(feeFloat)) total += feeFloat;
       if (!isNaN(travelFloat)) total += travelFloat;
       if (!isNaN(accFloat)) total = total + accFloat;
-      if (!isNaN(othFloat)) { total = total + othFloat; /*this.optionsShown = true;*/}
+      if (!isNaN(othFloat)) total = total + othFloat;
       if (!isNaN(subFloat)) total = total - subFloat;
 
       if (!isNaN(total) && total >= 0) return total;
       else if (!isNaN(total) && total < 0)
         return "Entered amount for subsistence is too great";
       else return "";
+      },
+    complete() {
+      if (this.feeValue != "" && this.travelValue != "" && this.accValue != "") {
+        return true;
+      } else
+        return false;
     }
   },
-  methods: {}
 };
 </script>
