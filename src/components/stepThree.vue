@@ -74,9 +74,11 @@ export default {
     signatureRules: [v => !!v || "Travler's signature is required"]
   }),
   computed: {
-  complete() {
-      if (this.choice != "" && this.signature != "") {
 
+  },
+  methods: {
+      complete() {
+      if (this.choice != "" && this.signature != "") {
         return true;
       } else
         return false;

@@ -69,6 +69,7 @@
           full-width
           @click:minute="$refs.timeMenu.save(time)"
           scrollable
+          :close-on-content-click="false"
         ></v-time-picker>
       </v-menu>
     </v-row>

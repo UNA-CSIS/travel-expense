@@ -9,6 +9,10 @@
       </v-app-bar>
     </v-card>
     <v-navigation-drawer v-model="drawer" app class="deep-purple accent-10">
+      <v-btn color="yellow" light href="/login">
+        <span></span>
+      </v-btn>
+      <br />
       <v-btn color="yellow" light href="/about">
         <span>About</span>
       </v-btn>

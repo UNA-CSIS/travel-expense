@@ -173,14 +173,18 @@ export default {
       else if (!isNaN(total) && total < 0)
         return "Entered amount for subsistence is too great";
       else return "";
-    },
-    complete() {
-      if (this.feeValue != "" && this.travelValue != "" && this.accValue != "") {
-
-        return true;
-      } else
-        return false;
     }
   },
+  methods: {
+    complete() {
+      if (
+        this.feeValue != "" &&
+        this.travelValue != "" &&
+        this.accValue != ""
+      ) {
+        return true;
+      } else return false;
+    }
+  }
 };
 </script>
