@@ -1,23 +1,23 @@
 <template>
-  <v-form ref="stepOneForm" v-model="valid" lazy-validation>
+  <v-form method="post" action="http://10.205.238.210:8888/api/user"> 
     <v-stepper v-model="e1" class="mt-12">
       <v-stepper-header>
         <v-stepper-step step="1" editable :complete="e1 >1">General Information</v-stepper-step>
         <v-divider></v-divider>
-        <v-stepper-step step="2" :editable="stepTwoEditable" :complete="e1 >2">Estimated Costs</v-stepper-step>
+        <v-stepper-step step="2" editable :complete="e1 >2">Estimated Costs</v-stepper-step>
         <v-divider></v-divider>
-        <v-stepper-step step="3" :editable="stepTwoEditable" :complete="e1 >3">Activity Information</v-stepper-step>
+        <v-stepper-step step="3" editable :complete="e1 >3">Activity Information</v-stepper-step>
       </v-stepper-header>
       <v-stepper-items>
         <v-stepper-content :step="1">
-          <stepOne v-model="stepOneComplete"/>
+          <stepOne />
           <v-row no-gutters>
             <v-col cols="6"></v-col>
             <v-col cols="5">
-              <v-btn
-                color="primary"
-                :disabled="!stepOneComplete"
-                @click="e1 = 2; stepTwoEditable = true"
+              <v-btn 
+              color="primary" 
+              :disabled="!stepOneComplete" 
+              @click="e1 = 2; stepTwoEditable = true"
               >Next</v-btn>
             </v-col>
           </v-row>
@@ -30,10 +30,10 @@
               <v-btn color="primary" @click="e1 = 1">Back</v-btn>
             </v-col>
             <v-col cols="5">
-              <v-btn
-                color="primary"
-                :disabled="!stepTwoComplete"
-                @click="e1 = 3;"
+              <v-btn 
+              color="primary" 
+              :disabled="!stepTwoComplete" 
+              @click="e1 = 3; stepThreeEditable = true"
               >Next</v-btn>
             </v-col>
           </v-row>
@@ -46,13 +46,13 @@
               <v-btn color="primary" @click="e1 = 2">Back</v-btn>
             </v-col>
             <v-col cols="5">
-              <v-btn color="primary" :disabled="!stepThreeComplete" @click="e1 = 4">Submit</v-btn>
+              <v-btn type="submit" color="primary" :disabled="!stepThreeComplete" @click="e1 = 4">Submit</v-btn>
             </v-col>
           </v-row>
         </v-stepper-content>
       </v-stepper-items>
     </v-stepper>
-  </v-form>
+  </v-form> 
 </template>
 
 <script>
@@ -81,4 +81,6 @@ export default {
     }
   },
 };
+
+
 </script>

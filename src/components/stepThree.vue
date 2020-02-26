@@ -3,6 +3,7 @@
     <v-row no-gutters justify="center">
       <v-col cols="3" style="min-width: 100px" class="flex-grow-1 flex-shrink-0">
         <v-select
+          name="activityInformation"
           v-model="choice"
           :items="items"
           label="Activity Information"
@@ -23,26 +24,25 @@
           <eventother />
         </div>
         <div v-else-if="choice == 'Other Activity'">
-          <eventother />
+          <eventOther />
         </div>
         <div v-if="choice != ''">
           <br />
-          <v-divider></v-divider>
-          <br />
           <v-row no-gutters>
-            <v-col cols="6" style="min-width: 100px">
-              <v-text-field
-                v-model="signature"
-                label="Traveler's Signature"
-                :rules="signatureRules"
-                required
-              ></v-text-field>
-            </v-col>
-            <v-col cols="1" style="min-width: 100px"></v-col>
-            <v-col cols="3" style="min-width: 100px">
-              <v-text-field v-model="date" label="Date" required disabled></v-text-field>
-            </v-col>
-          </v-row>
+          <v-col cols="6" style="min-width: 100px">
+            <v-text-field
+            name="signature"
+            v-model="signature" 
+            label="Traveler's Signature"
+            :rules="signatureRules"
+            required
+            ></v-text-field>
+          </v-col>
+          <v-col cols="1" style="min-width: 100px"></v-col>
+          <v-col cols="3" style="min-width: 100px">
+            <v-text-field v-model="date" label="Date" required :disabled=true></v-text-field>
+          </v-col>
+        </v-row>
         </div>
       </v-col>
     </v-row>
@@ -71,13 +71,10 @@ export default {
       "Other Activity"
     ],
     actChoiceRules: [v => !!v || "Required"],
-    signatureRules: [v => !!v || "Travler's signature is required"]
+    signatureRules: [v => !!v || "Traveler's signature is required"]
   }),
   computed: {
-
-  },
-  methods: {
-      complete() {
+    complete() {
       if (this.choice != "" && this.signature != "") {
         return true;
       } else

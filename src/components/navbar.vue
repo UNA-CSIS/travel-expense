@@ -8,7 +8,7 @@
         </v-toolbar-title>
       </v-app-bar>
     </v-card>
-    <v-navigation-drawer v-model="drawer" app class="deep-purple accent-10">
+    <v-navigation-drawer v-model="drawer" app class="purple">
       <v-btn color="yellow" light href="/login">
         <span></span>
       </v-btn>

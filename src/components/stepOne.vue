@@ -3,16 +3,17 @@
     <v-row no-gutters justify="center">
       <v-col cols="8" style="min-width: 100px" class="flex-grow-1 flex-shrink 0">
         <v-row no-gutters>
-          <v-text-field v-model="name" :rules="nameRules" label="Name" required></v-text-field>
+          <v-text-field name="name" v-model="name" :rules="nameRules" label="Name" required></v-text-field>
         </v-row>
         <v-row no-gutters>
-          <v-text-field v-model="dept" :rules="deptRules" label="Department" required></v-text-field>
+          <v-text-field name="dept" v-model="dept" :rules="deptRules" label="Department" required></v-text-field>
         </v-row>
         <v-row no-gutters>
-          <v-text-field v-model="dest" :rules="destRules" label="Destination" required></v-text-field>
+          <v-text-field name="dest" v-model="dest" :rules="destRules" label="Destination" required></v-text-field>
         </v-row>
         <v-row no-gutters>
           <v-menu
+            name="dates"
             ref="menu"
             v-model="menu"
             :close-on-content-click="false"
@@ -24,6 +25,7 @@
           >
             <template v-slot:activator="{ on }">
               <v-text-field
+                name="travelDates"
                 v-model="dateRangeText"
                 :rules="travelRules"
                 label="Travel Dates"
@@ -32,12 +34,12 @@
                 v-on="on"
               ></v-text-field>
             </template>
-            <v-date-picker
-              v-model="dates"
-              no-title
-              scrollable
-              range
-              header-date-format="mm/dd/yyyy"
+            <v-date-picker 
+            v-model="dates" 
+            no-title 
+            scrollable 
+            range 
+            header-date-format="mm/dd/yyyy"
             >
               <v-spacer></v-spacer>
               <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
@@ -69,13 +71,14 @@
         </v-row>
       </v-col>
     </v-row>
+   <!-- </v-form> -->
   </nav>
 </template>
 
 <script>
 export default {
   data: () => ({
-    stepOneDone: true,
+    valid: false,
     name: "",
     nameRules: [v => !!v || "Name is required"],
     dept: "",
@@ -94,9 +97,20 @@ export default {
     dateRangeText() {
       if (this.dates[0] != "" && this.dates[0] == this.dates[1])
         return this.dates[0];
-      if (this.dates[0] != "") return this.dates.join(" - ");
+      if(this.dates[0] != "") return this.dates.join(" - ");
       else return "";
     },
-  },
+    complete() {
+      if (this.name == "" ||
+        this.dept == "" ||
+        this.dest == "" ||
+        this.dates[0] == "" ||
+        this.reason == "" ||
+        this.itinerary == ""
+        )
+          return false;
+        else return true;
+    }
+  }
 };
 </script>

@@ -2,6 +2,7 @@
   <nav>
     <v-row no-gutters>
       <v-textarea
+        name="otherReason"
         v-model="reason"
         label="Reason(s)"
         hint="Please provide specific reason for this trip"
@@ -23,4 +24,4 @@ export default {
     reasonRules: [v => !!v || "A reason for attendance is required"]
   })
 };
-</script>
+</script> 
