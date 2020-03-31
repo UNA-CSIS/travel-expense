@@ -30,7 +30,7 @@ export default (app, http) => {
         let conferenceDates = request.body.conferenceDates;
         let conferenceWebsite = request.body.conferenceWebsite;
         let conferenceOther = request.body.conferenceOther;
-        var data = {name: name, department: department, destination: destination, 
+        let data = {name: name, department: department, destination: destination, 
                 travelDates: travelDates, reason: reason, plan: plan, fees: fees, expenses: expenses,
                 accomodation: accomodation, otherExpenses: otherExpenses, subsistence: subsistence,
                 activityInformation: activityInformation, signature: signature, conferenceReason: conferenceReason, conferenceTitle: conferenceTitle,
@@ -43,7 +43,7 @@ export default (app, http) => {
         let meetingTime = request.body.meetingTime;
         let role = request.body.role;
         let purpose = request.body.purpose;
-        var data = {name: name, department: department, destination: destination, 
+        let data = {name: name, department: department, destination: destination, 
           travelDates: travelDates, reason: reason, plan: plan, fees: fees, expenses: expenses,
           accomodation: accomodation, otherExpenses: otherExpenses, subsistence: subsistence,
           activityInformation: activityInformation, signature: signature, meetings: meetings, attendees: attendees, meetingDates: meetingDates,
@@ -51,14 +51,14 @@ export default (app, http) => {
     }
     else if (activityInformation == 'Marketing/Recruitment Event') {
       let otherReason = request.body.otherReason;
-      var data = {name: name, department: department, destination: destination, 
+      let data = {name: name, department: department, destination: destination, 
         travelDates: travelDates, reason: reason, plan: plan, fees: fees, expenses: expenses,
         accomodation: accomodation, otherExpenses: otherExpenses, subsistence: subsistence,
         activityInformation: activityInformation, signature: signature, otherReason: otherReason};
     }
 
     else {
-      var data = {name: name, department: department, destination: destination, 
+      let data = {name: name, department: department, destination: destination, 
         travelDates: travelDates, reason: reason, plan: plan, fees: fees, expenses: expenses,
         accomodation: accomodation, otherExpenses: otherExpenses, subsistence: subsistence,
         activityInformation: activityInformation, signature: signature}
@@ -78,13 +78,32 @@ export default (app, http) => {
     });
     //Respond with a page displaying the data again?
     console.log(data);
-    response.redirect("http://10.205.238.210:8080");
+    response.redirect("http://localhost:8080");
   });
 
+  app.post('/api/login', function(request, response) {
+    
+      let user = request.body.username;
+      let pwd = request.body.password;
+      mongo.connect(url, function(err, client) {
+        if (err) throw err;
+        let dbo = client.db("project");
+
+        dbo.collection("users").findOne({username: user, password: pwd}, function(err, result) {
+          if(result != null) {
+          console.log(result.username);
+          }
+          else
+            console.log("Invalid username or password");
+        });
+        
+  });
+  response.redirect("http://localhost:8080");
+});
   app.get('/', function(request, response) {
     console.log("Used default / instead of api/user");
     response.send("default err");
-  })
+  });
 
   app.listen(8888);
 

@@ -1,5 +1,10 @@
 <template>
-  <v-form method="post" action="http://10.205.238.210:8888/api/user"> 
+<v-form method="post" action="http://localhost:8888/api/login">
+<v-text-field name="username" v-model="dest" :rules="destRules" label="Destination" required></v-text-field>
+<v-text-field name="password" v-model="dest" :rules="destRules" label="Destination" required></v-text-field>
+<v-btn type="submit" color="primary" :disabled="!stepThreeComplete" @click="e1 = 4">Submit</v-btn>
+</v-form>
+ <!-- <v-form method="post" action="http://localhost:8888/api/user"> 
     <v-stepper v-model="e1" class="mt-12">
       <v-stepper-header>
         <v-stepper-step step="1" editable :complete="e1 >1">General Information</v-stepper-step>
@@ -52,19 +57,19 @@
         </v-stepper-content>
       </v-stepper-items>
     </v-stepper>
-  </v-form> 
+  </v-form> -->
 </template>
 
 <script>
-import stepOne from "@/components/stepOne";
-import stepTwo from "@/components/stepTwo";
-import stepThree from "@/components/stepThree";
+//import stepOne from "@/components/stepOne";
+//import stepTwo from "@/components/stepTwo";
+//import stepThree from "@/components/stepThree";
 
 export default {
   components: {
-    stepOne,
-    stepTwo,
-    stepThree
+   // stepOne,
+   // stepTwo,
+   // stepThree
   },
   data: () => ({
     e1: 1,
