@@ -1,5 +1,5 @@
 <template>
-  <v-form method="post" action="http://10.205.238.210:8888/api/user"> 
+<v-form method="post" action="http://localhost:8888/api/user"> 
     <v-stepper v-model="e1" class="mt-12">
       <v-stepper-header>
         <v-stepper-step step="1" editable :complete="e1 >1">General Information</v-stepper-step>

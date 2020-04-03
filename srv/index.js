@@ -1,16 +1,17 @@
 import express from 'express';
 var mongo = require('mongodb').MongoClient;
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 // import socketIO from "socket.io";
 const app = express();
 const url='mongodb://localhost:27017/';
+const homepage = "http://localhost:8080";
 
 
 export default (app, http) => {
   app.use(express.json());
   app.use(express.urlencoded({extended: true}))
   app.post('/api/user', function(request, response) {
-    //console.log(request.body);
-    //response.send(request.body);
     let name = request.body.name;
     let department = request.body.dept;
     let destination = request.body.dest;
@@ -30,7 +31,7 @@ export default (app, http) => {
         let conferenceDates = request.body.conferenceDates;
         let conferenceWebsite = request.body.conferenceWebsite;
         let conferenceOther = request.body.conferenceOther;
-        var data = {name: name, department: department, destination: destination, 
+        let data = {name: name, department: department, destination: destination, 
                 travelDates: travelDates, reason: reason, plan: plan, fees: fees, expenses: expenses,
                 accomodation: accomodation, otherExpenses: otherExpenses, subsistence: subsistence,
                 activityInformation: activityInformation, signature: signature, conferenceReason: conferenceReason, conferenceTitle: conferenceTitle,
@@ -43,7 +44,7 @@ export default (app, http) => {
         let meetingTime = request.body.meetingTime;
         let role = request.body.role;
         let purpose = request.body.purpose;
-        var data = {name: name, department: department, destination: destination, 
+        let data = {name: name, department: department, destination: destination, 
           travelDates: travelDates, reason: reason, plan: plan, fees: fees, expenses: expenses,
           accomodation: accomodation, otherExpenses: otherExpenses, subsistence: subsistence,
           activityInformation: activityInformation, signature: signature, meetings: meetings, attendees: attendees, meetingDates: meetingDates,
@@ -51,14 +52,14 @@ export default (app, http) => {
     }
     else if (activityInformation == 'Marketing/Recruitment Event') {
       let otherReason = request.body.otherReason;
-      var data = {name: name, department: department, destination: destination, 
+      let data = {name: name, department: department, destination: destination, 
         travelDates: travelDates, reason: reason, plan: plan, fees: fees, expenses: expenses,
         accomodation: accomodation, otherExpenses: otherExpenses, subsistence: subsistence,
         activityInformation: activityInformation, signature: signature, otherReason: otherReason};
     }
 
     else {
-      var data = {name: name, department: department, destination: destination, 
+      let data = {name: name, department: department, destination: destination, 
         travelDates: travelDates, reason: reason, plan: plan, fees: fees, expenses: expenses,
         accomodation: accomodation, otherExpenses: otherExpenses, subsistence: subsistence,
         activityInformation: activityInformation, signature: signature}
@@ -78,13 +79,74 @@ export default (app, http) => {
     });
     //Respond with a page displaying the data again?
     console.log(data);
-    response.redirect("http://10.205.238.210:8080");
+    response.redirect(homepage);
   });
 
+  //User login
+  app.post('/api/login', function(request, response) {
+    
+      let user = request.body.username;
+      let pwd = request.body.password;
+      mongo.connect(url, function(err, client) {
+        if (err) throw err;
+        let dbo = client.db("project");
+        bcrypt.hash(pwd, saltRounds, function(err, hash) {
+        dbo.collection("users").findOne({username: user}, function(err, result) {
+          if(result != null) {
+            if(user === result.username) {
+              bcrypt.compare(pwd, result.password, function(err, result) {
+                  if(result == true) {
+                    //successful login
+                    console.log("Success!");
+                    response.redirect(homepage);
+                  }
+                  else {
+                    console.log("Invalid username or password");
+                    // unsuccessful login
+                  }
+              });
+            }
+          }
+          else
+            console.log("Invalid username or password");
+        });
+        client.close();
+      });
+  });
+  //response.redirect(homepage);
+});
+
+//Create new account
+app.post('/api/createAcc', function(request, response) {
+  let user = request.body.username;
+  let pwd = request.body.password;
+  let email = request.body.email;
+  
+  mongo.connect(url, function(err, client) {
+    if (err) throw err;
+    let dbo = client.db("project");
+    dbo.collection("users").findOne({username: user}, function(err, result) {
+      if(result != null) {
+        response.redirect(homepage);
+      }
+      else {
+        //Does not already exist, encrypt password and store new user
+        bcrypt.hash(pwd, saltRounds, function(err, hash) {
+          let data = {username: user, password: hash, email: email};
+          dbo.collection("users").insertOne(data, function(err, result) {
+            if (err) throw err;
+            client.close();
+            response.redirect(homepage);
+          });
+        });
+      }
+    });
+  });
+});
   app.get('/', function(request, response) {
     console.log("Used default / instead of api/user");
     response.send("default err");
-  })
+  });
 
   app.listen(8888);
 
