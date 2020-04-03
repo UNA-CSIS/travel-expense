@@ -12,8 +12,6 @@ export default (app, http) => {
   app.use(express.json());
   app.use(express.urlencoded({extended: true}))
   app.post('/api/user', function(request, response) {
-    //console.log(request.body);
-    //response.send(request.body);
     let name = request.body.name;
     let department = request.body.dept;
     let destination = request.body.dest;
@@ -92,15 +90,18 @@ export default (app, http) => {
       mongo.connect(url, function(err, client) {
         if (err) throw err;
         let dbo = client.db("project");
-
-        dbo.collection("users").findOne({username: user, password: pwd}, function(err, result) {
+        bcrypt.hash(pwd, saltRounds, function(err, hash) {
+        dbo.collection("users").findOne({username: user}, function(err, result) {
           if(result != null) {
             if(user === result.username) {
               bcrypt.compare(pwd, result.password, function(err, result) {
                   if(result == true) {
                     //successful login
+                    console.log("Success!");
+                    response.redirect(homepage);
                   }
                   else {
+                    console.log("Invalid username or password");
                     // unsuccessful login
                   }
               });
@@ -110,38 +111,38 @@ export default (app, http) => {
             console.log("Invalid username or password");
         });
         client.close();
+      });
   });
-  response.redirect(homepage);
+  //response.redirect(homepage);
 });
 
 //Create new account
-app.get('/api/login', function(request, response) {
+app.post('/api/createAcc', function(request, response) {
   let user = request.body.username;
   let pwd = request.body.password;
   let email = request.body.email;
-
+  
   mongo.connect(url, function(err, client) {
     if (err) throw err;
     let dbo = client.db("project");
-    dbo.collection("users").find({username: user}, function(err, result) {
+    dbo.collection("users").findOne({username: user}, function(err, result) {
       if(result != null) {
-        //return that user already exists
         response.redirect(homepage);
       }
       else {
         //Does not already exist, encrypt password and store new user
         bcrypt.hash(pwd, saltRounds, function(err, hash) {
-          let data = {username: user, password: pwd, email: email};
-          dbo.collection("users").insertOne(data, function(err, response) {
+          let data = {username: user, password: hash, email: email};
+          dbo.collection("users").insertOne(data, function(err, result) {
             if (err) throw err;
             client.close();
             response.redirect(homepage);
           });
         });
       }
-    })
-  })
-})
+    });
+  });
+});
   app.get('/', function(request, response) {
     console.log("Used default / instead of api/user");
     response.send("default err");
