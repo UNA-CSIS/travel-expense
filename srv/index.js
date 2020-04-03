@@ -1,8 +1,11 @@
 import express from 'express';
 var mongo = require('mongodb').MongoClient;
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 // import socketIO from "socket.io";
 const app = express();
 const url='mongodb://localhost:27017/';
+const homepage = "http://localhost:8080";
 
 
 export default (app, http) => {
@@ -78,9 +81,10 @@ export default (app, http) => {
     });
     //Respond with a page displaying the data again?
     console.log(data);
-    response.redirect("http://localhost:8080");
+    response.redirect(homepage);
   });
 
+  //User login
   app.post('/api/login', function(request, response) {
     
       let user = request.body.username;
@@ -91,15 +95,53 @@ export default (app, http) => {
 
         dbo.collection("users").findOne({username: user, password: pwd}, function(err, result) {
           if(result != null) {
-          console.log(result.username);
+            if(user === result.username) {
+              bcrypt.compare(pwd, result.password, function(err, result) {
+                  if(result == true) {
+                    //successful login
+                  }
+                  else {
+                    // unsuccessful login
+                  }
+              });
+            }
           }
           else
             console.log("Invalid username or password");
         });
-        
+        client.close();
   });
-  response.redirect("http://localhost:8080");
+  response.redirect(homepage);
 });
+
+//Create new account
+app.get('/api/login', function(request, response) {
+  let user = request.body.username;
+  let pwd = request.body.password;
+  let email = request.body.email;
+
+  mongo.connect(url, function(err, client) {
+    if (err) throw err;
+    let dbo = client.db("project");
+    dbo.collection("users").find({username: user}, function(err, result) {
+      if(result != null) {
+        //return that user already exists
+        response.redirect(homepage);
+      }
+      else {
+        //Does not already exist, encrypt password and store new user
+        bcrypt.hash(pwd, saltRounds, function(err, hash) {
+          let data = {username: user, password: pwd, email: email};
+          dbo.collection("users").insertOne(data, function(err, response) {
+            if (err) throw err;
+            client.close();
+            response.redirect(homepage);
+          });
+        });
+      }
+    })
+  })
+})
   app.get('/', function(request, response) {
     console.log("Used default / instead of api/user");
     response.send("default err");
