@@ -1,4 +1,5 @@
 import express from 'express';
+var nodemailer = require('nodemailer');
 var mongo = require('mongodb').MongoClient;
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
@@ -6,6 +7,14 @@ const saltRounds = 10;
 const app = express();
 const url='mongodb://localhost:27017/';
 const homepage = "http://localhost:8080";
+
+var serverEmailAccount = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'UNATravelForm@gmail.com',
+    pass: 'UNATravelForm1!'
+  }
+});
 
 
 export default (app, http) => {
@@ -31,7 +40,7 @@ export default (app, http) => {
         let conferenceDates = request.body.conferenceDates;
         let conferenceWebsite = request.body.conferenceWebsite;
         let conferenceOther = request.body.conferenceOther;
-        let data = {name: name, department: department, destination: destination, 
+        var data = {name: name, department: department, destination: destination, 
                 travelDates: travelDates, reason: reason, plan: plan, fees: fees, expenses: expenses,
                 accomodation: accomodation, otherExpenses: otherExpenses, subsistence: subsistence,
                 activityInformation: activityInformation, signature: signature, conferenceReason: conferenceReason, conferenceTitle: conferenceTitle,
@@ -44,7 +53,7 @@ export default (app, http) => {
         let meetingTime = request.body.meetingTime;
         let role = request.body.role;
         let purpose = request.body.purpose;
-        let data = {name: name, department: department, destination: destination, 
+        var data = {name: name, department: department, destination: destination, 
           travelDates: travelDates, reason: reason, plan: plan, fees: fees, expenses: expenses,
           accomodation: accomodation, otherExpenses: otherExpenses, subsistence: subsistence,
           activityInformation: activityInformation, signature: signature, meetings: meetings, attendees: attendees, meetingDates: meetingDates,
@@ -52,17 +61,17 @@ export default (app, http) => {
     }
     else if (activityInformation == 'Marketing/Recruitment Event') {
       let otherReason = request.body.otherReason;
-      let data = {name: name, department: department, destination: destination, 
+      var data = {name: name, department: department, destination: destination, 
         travelDates: travelDates, reason: reason, plan: plan, fees: fees, expenses: expenses,
         accomodation: accomodation, otherExpenses: otherExpenses, subsistence: subsistence,
         activityInformation: activityInformation, signature: signature, otherReason: otherReason};
     }
 
     else {
-      let data = {name: name, department: department, destination: destination, 
+      var data = {name: name, department: department, destination: destination, 
         travelDates: travelDates, reason: reason, plan: plan, fees: fees, expenses: expenses,
         accomodation: accomodation, otherExpenses: otherExpenses, subsistence: subsistence,
-        activityInformation: activityInformation, signature: signature}
+        activityInformation: activityInformation, signature: signature};
     }
     //Validate data
 
@@ -70,15 +79,27 @@ export default (app, http) => {
     mongo.connect(url, function(err, client) {
       if (err) throw err;
       let dbo = client.db("project");
-      
       dbo.collection("expenseReports").insertOne(data, function(err, response) {
         if (err) throw err;
         client.close();
       });
+      var mailOptions = {
+        from: 'UNATravelForm@gmail.com',
+        to: 'jmorris0899@yahoo.com',
+        subject: 'New Travel Request Submitted',
+        text: "A new travel request form has been submitted by " + name
+      };
       
+      serverEmailAccount.sendMail(mailOptions, function(error, info) {
+        if (error) {
+          console.log(error);
+        } else {
+          console.log('Email sent: ' +info.response);
+        }
+      });
     });
     //Respond with a page displaying the data again?
-    console.log(data);
+    
     response.redirect(homepage);
   });
 
