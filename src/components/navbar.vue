@@ -10,7 +10,7 @@
     </v-card>
     <v-navigation-drawer v-model="drawer" app class="purple">
       <v-btn color="yellow" light href="/login">
-        <span></span>
+        <span>Login</span>
       </v-btn>
       <br />
       <v-btn color="yellow" light href="/about">

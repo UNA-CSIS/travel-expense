@@ -7,6 +7,7 @@ const saltRounds = 10;
 const app = express();
 const url='mongodb://localhost:27017/';
 const homepage = "http://localhost:8080";
+const login = "http://localhost:8080/login";
 
 var serverEmailAccount = nodemailer.createTransport({
   service: 'gmail',
@@ -118,18 +119,18 @@ export default (app, http) => {
               bcrypt.compare(pwd, result.password, function(err, result) {
                   if(result == true) {
                     //successful login
-                    console.log("Success!");
                     response.redirect(homepage);
                   }
                   else {
-                    console.log("Invalid username or password");
+                    response.redirect(login);
                     // unsuccessful login
                   }
               });
             }
           }
-          else
-            console.log("Invalid username or password");
+          else {
+            response.redirect(login);
+          }
         });
         client.close();
       });
@@ -148,7 +149,7 @@ app.post('/api/createAcc', function(request, response) {
     let dbo = client.db("project");
     dbo.collection("users").findOne({username: user}, function(err, result) {
       if(result != null) {
-        response.redirect(homepage);
+        response.redirect(login);
       }
       else {
         //Does not already exist, encrypt password and store new user

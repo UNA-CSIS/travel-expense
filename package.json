@@ -10,12 +10,14 @@
     "express:run": "vue-cli-service express:run"
   },
   "dependencies": {
+    "axios": "^0.19.2",
     "bcrypt": "^4.0.1",
     "core-js": "^3.6.4",
     "express": "^4.17.1",
     "mongodb": "^3.5.3",
     "nodemailer": "^6.4.6",
     "vue": "^2.6.11",
+    "vue-axios": "^2.1.5",
     "vue-router": "^3.1.5",
     "vuetify": "^2.2.11"
   },
