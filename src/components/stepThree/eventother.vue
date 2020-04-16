@@ -13,7 +13,7 @@
       ></v-textarea>
     </v-row>
     <v-row>
-      <v-file-input accept=".doc, .docx, .pdf" label="Itinerary details"></v-file-input>
+      <v-file-input name="itinerary" accept=".doc, .docx, .pdf" label="Itinerary details"></v-file-input>
     </v-row>
   </nav>
 </template>

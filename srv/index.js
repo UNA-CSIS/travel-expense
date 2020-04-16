@@ -1,6 +1,7 @@
 import express from 'express';
 var nodemailer = require('nodemailer');
 var mongo = require('mongodb').MongoClient;
+let cors = require('cors');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 // import socketIO from "socket.io";
@@ -20,6 +21,7 @@ var serverEmailAccount = nodemailer.createTransport({
 
 export default (app, http) => {
   app.use(express.json());
+  app.use(cors());
   app.use(express.urlencoded({extended: true}))
   app.post('/api/user', function(request, response) {
     let name = request.body.name;
@@ -191,6 +193,25 @@ app.get('/api/form', function(request, response) {
   });
 });
 
+app.post('/api/formDetail', function(request, response) {
+  console.log("got here");
+  mongo.connect(url, function(err, client) {
+    if (err) throw err;
+    let dbo = client.db("project");
+
+    //Set headers for CORS
+    response.header("Access-Control-Allow-Origin", "*");
+    response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    response.header("Access-Control-Allow-Methods", "POST, OPTIONS");
+    let data = [];
+    dbo.collection("expenseReports").findOne({name: request.body.name, travelDates: request.body.travelDates, 
+            destination: request.body.destination}).then((result) => {
+                response.send(result);
+            }).catch((error) => {
+              throw error;
+            });
+  });
+});
   app.get('/', function(request, response) {
     console.log("Used default / instead of api/user");
     response.send("default err");
