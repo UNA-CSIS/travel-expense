@@ -165,6 +165,32 @@ app.post('/api/createAcc', function(request, response) {
     });
   });
 });
+
+app.get('/api/form', function(request, response) {
+  
+  mongo.connect(url, function(err, client) {
+    if (err) throw err;
+    let dbo = client.db("project");
+
+    //Set headers for CORS
+    response.header("Access-Control-Allow-Origin", "*");
+    response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    let data = [];
+
+    //Iterate through all returned forms and store data in array to be sent back
+    dbo.collection("expenseReports").find({}).forEach(result => {
+      if(result == null) {
+        console.log("Couldn't find a form");
+      }
+      else {
+        data.push({name: result.name, location: result.destination, date: result.travelDates});
+      }
+    }).then(function() {
+      response.send(data);
+    });
+  });
+});
+
   app.get('/', function(request, response) {
     console.log("Used default / instead of api/user");
     response.send("default err");

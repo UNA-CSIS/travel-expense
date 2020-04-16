@@ -16,6 +16,10 @@
       <v-btn color="yellow" light href="/about">
         <span>About</span>
       </v-btn>
+      <br />
+      <v-btn color="yellow" light href = "/chairView">
+        <span>Chair View</span>
+      </v-btn>
     </v-navigation-drawer>
   </nav>
 </template>
