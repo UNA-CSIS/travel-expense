@@ -79,9 +79,10 @@
             <v-label>Itinerary Details: {{details.itinerary}}</v-label></v-row>
         </v-layout>
         </v-container>
+        <v-row>
         <v-btn v-on:click="showTable = !showTable" justify="center" align="center" color="primary">Go back to table</v-btn>
         <v-btn v-on:click="confirmReport" color="primary">Confirm Payment for Travel</v-btn>
-        <v-btn v-on:click="denyReport" color="primary">Deny Trip Payment</v-btn>
+        <v-btn v-on:click="denyReport" color="primary">Deny Trip Payment</v-btn></v-row>
           </v-layout>
     </v-card>
   </v-container>
@@ -105,21 +106,23 @@
           value: 'name'
         },
         {text: 'Location', value: 'location'},
-        {text: 'Date', value: 'date'}
+        {text: 'Date', value: 'date'},
+        {text: 'Confirmed', value: 'confirmed'}
         ],
         submittedForms: []
     }),
     mounted() {
-      axios.get("http://localhost:8888/api/form").then((response) => {
-        this.submittedForms = response.data;
-      }
-      ).catch(function(error) {
-        console.log(error);
-      });
-      
-      
+      this.loadForms();
     },
     methods: {
+        loadForms() {
+          axios.get("http://localhost:8888/api/form").then((response) => {
+          this.submittedForms = response.data;
+          }
+          ).catch(function(error) {
+          console.log(error);
+          });
+        },
         getDetails() {
             this.showTable = false;
             axios({
@@ -136,10 +139,40 @@
             });
         },
         confirmReport() {
-           // axios
+          console.log("Got here");
+          axios({
+              method: 'put',
+              url: "http://localhost:8888/api/form",
+              data: {
+                name: this.details.name,
+                department: this.details.department,
+                destination: this.details.destination,
+                travelDates: this.details.travelDates,
+                reason: this.details.reason
+              }
+          }).then(() => {
+            alert("Travel Report has been confirmed");
+            this.loadForms();
+            this.showTable = true;
+          });
         },
         denyReport() {
-
+          axios({
+              method: 'delete',
+              url: "http://localhost:8888/api/form",
+              data: {
+                name: this.details.name,
+                department: this.details.department,
+                destination: this.details.destination,
+                travelDates: this.details.travelDates,
+                reason: this.details.reason
+              }
+          }).then(() => {
+            console.log("Travel Report has been declined");
+            alert("Travel Report has been declined");
+            this.loadForms();
+            this.showTable = true;
+          });
         }
     }
   };

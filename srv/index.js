@@ -47,7 +47,7 @@ export default (app, http) => {
                 travelDates: travelDates, reason: reason, plan: plan, fees: fees, expenses: expenses,
                 accomodation: accomodation, otherExpenses: otherExpenses, subsistence: subsistence,
                 activityInformation: activityInformation, signature: signature, conferenceReason: conferenceReason, conferenceTitle: conferenceTitle,
-                conferenceDates: conferenceDates, conferenceWebsite: conferenceWebsite, conferenceOther: conferenceOther};
+                conferenceDates: conferenceDates, conferenceWebsite: conferenceWebsite, conferenceOther: conferenceOther, confirmed: false};
     }
     else if (activityInformation == 'Business Meeting') {
         let meetings = request.body.meetings;
@@ -60,21 +60,21 @@ export default (app, http) => {
           travelDates: travelDates, reason: reason, plan: plan, fees: fees, expenses: expenses,
           accomodation: accomodation, otherExpenses: otherExpenses, subsistence: subsistence,
           activityInformation: activityInformation, signature: signature, meetings: meetings, attendees: attendees, meetingDates: meetingDates,
-          meetingTime: meetingTime, role: role, purpose: purpose};
+          meetingTime: meetingTime, role: role, purpose: purpose, confirmed: false};
     }
     else if (activityInformation == 'Marketing/Recruitment Event') {
       let otherReason = request.body.otherReason;
       var data = {name: name, department: department, destination: destination, 
         travelDates: travelDates, reason: reason, plan: plan, fees: fees, expenses: expenses,
         accomodation: accomodation, otherExpenses: otherExpenses, subsistence: subsistence,
-        activityInformation: activityInformation, signature: signature, otherReason: otherReason};
+        activityInformation: activityInformation, signature: signature, otherReason: otherReason, confirmed: false};
     }
 
     else {
       var data = {name: name, department: department, destination: destination, 
         travelDates: travelDates, reason: reason, plan: plan, fees: fees, expenses: expenses,
         accomodation: accomodation, otherExpenses: otherExpenses, subsistence: subsistence,
-        activityInformation: activityInformation, signature: signature};
+        activityInformation: activityInformation, signature: signature, confirmed: false};
     }
     //Validate data
 
@@ -185,7 +185,7 @@ app.get('/api/form', function(request, response) {
         console.log("Couldn't find a form");
       }
       else {
-        data.push({name: result.name, location: result.destination, date: result.travelDates});
+        data.push({name: result.name, location: result.destination, date: result.travelDates, confirmed: result.confirmed});
       }
     }).then(function() {
       response.send(data);
@@ -193,8 +193,35 @@ app.get('/api/form', function(request, response) {
   });
 });
 
+app.put('/api/form', function(request, response) {
+  mongo.connect(url, function(err, client) {
+    if (err) throw err;
+    let dbo = client.db("project");
+    dbo.collection("expenseReports").updateOne({name: request.body.name, department: request.body.department,
+                                              destination: request.body.destination, travelDates: request.body.travelDates,
+                                              reason: request.body.reason}, {$set: {confirmed: true}}, 
+      function(err, result) {
+        if(result != null) {
+          response.send("Report has been confirmed");
+        }
+      });
+});
+});
+app.delete('/api/form', function(request, response) {
+  mongo.connect(url, function(err, client) {
+    if (err) throw err;
+    let dbo = client.db("project");
+    dbo.collection("expenseReports").remove({name: request.body.name, department: request.body.department,
+                                              destination: request.body.destination, travelDates: request.body.travelDates,
+                                              reason: request.body.reason}, {justOne: true}, 
+      function(err, result) {
+        if(result != null) {
+          response.send("Report has been deleted");
+        }
+      });
+    });
+});
 app.post('/api/formDetail', function(request, response) {
-  console.log("got here");
   mongo.connect(url, function(err, client) {
     if (err) throw err;
     let dbo = client.db("project");
