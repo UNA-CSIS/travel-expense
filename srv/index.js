@@ -108,7 +108,8 @@ export default (app, http) => {
 
   //User login
   app.post('/api/login', function(request, response) {
-    
+    response.header("Access-Control-Allow-Origin", "*");
+    response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
       let user = request.body.username;
       let pwd = request.body.password;
       mongo.connect(url, function(err, client) {
@@ -121,23 +122,23 @@ export default (app, http) => {
               bcrypt.compare(pwd, result.password, function(err, result) {
                   if(result == true) {
                     //successful login
-                    response.redirect(homepage);
+                    response.send({message: "Success"});
+                   
                   }
                   else {
-                    response.redirect(login);
+                    response.send({message: "Wrong username/password"});
                     // unsuccessful login
                   }
               });
             }
           }
           else {
-            response.redirect(login);
+            response.send({message: "Wrong username/password"});
           }
         });
         client.close();
       });
   });
-  //response.redirect(homepage);
 });
 
 //Create new account
@@ -151,7 +152,7 @@ app.post('/api/createAcc', function(request, response) {
     let dbo = client.db("project");
     dbo.collection("users").findOne({username: user}, function(err, result) {
       if(result != null) {
-        response.redirect(login);
+        response.send({message: "Username already exists"});
       }
       else {
         //Does not already exist, encrypt password and store new user
@@ -160,7 +161,7 @@ app.post('/api/createAcc', function(request, response) {
           dbo.collection("users").insertOne(data, function(err, result) {
             if (err) throw err;
             client.close();
-            response.redirect(homepage);
+            response.send({message: "Success"});
           });
         });
       }
