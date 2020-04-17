@@ -74,7 +74,6 @@ export default {
     if(!this.$session.exists()) {
         this.$router.push('/login');
     }
-    console.log(this.$session.get('admin'));
     this.username = this.$session.get('username');
   },
   mounted: function() {

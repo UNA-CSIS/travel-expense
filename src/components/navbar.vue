@@ -17,8 +17,16 @@
         <span>About</span>
       </v-btn>
       <br />
-      <v-btn color="yellow" light href = "/chairView">
+      <v-btn color="yellow" light v-on:click="formPage">
+        <span>Forms</span>
+      </v-btn>
+      <br />
+      <v-btn color="yellow" light v-on:click="chairPage">
         <span>Chair View</span>
+      </v-btn>
+      <br />
+      <v-btn color="yellow" light v-on:click="logout">
+        <span>Log Out</span>
       </v-btn>
     </v-navigation-drawer>
   </nav>
@@ -29,6 +37,33 @@ export default {
   data: () => ({
     //
     drawer: false
-  })
+  }),
+  methods: {
+    logout() {
+        this.$session.destroy();
+        this.$router.push('/login');
+    },
+
+    formPage() {
+      if(this.$session.exists()) {
+        this.$router.push('/');
+      }
+      else {
+        alert("Invalid permission");
+      }
+    },
+
+    chairPage() {
+      if(this.$session.exists()) {
+        if(this.$session.get('admin'))
+            this.$router.push('/chairView');
+        else 
+            alert("Invalid permission");
+      }
+      else 
+        alert("Invalid permission");
+      
+    }
+  }
 };
 </script>

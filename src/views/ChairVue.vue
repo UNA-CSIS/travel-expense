@@ -111,7 +111,6 @@
             });
         },
         confirmReport() {
-          console.log("Got here");
           axios({
               method: 'put',
               url: "http://localhost:8888/api/form",
@@ -140,7 +139,6 @@
                 reason: this.details.reason
               }
           }).then(() => {
-            console.log("Travel Report has been declined");
             alert("Travel Report has been declined");
             this.loadForms();
             this.showTable = true;
