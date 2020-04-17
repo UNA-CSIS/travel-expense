@@ -24,6 +24,7 @@ export default (app, http) => {
   app.use(cors());
   app.use(express.urlencoded({extended: true}))
   app.post('/api/user', function(request, response) {
+    let username = request.body.username;
     let name = request.body.name;
     let department = request.body.dept;
     let destination = request.body.dest;
@@ -43,7 +44,7 @@ export default (app, http) => {
         let conferenceDates = request.body.conferenceDates;
         let conferenceWebsite = request.body.conferenceWebsite;
         let conferenceOther = request.body.conferenceOther;
-        var data = {name: name, department: department, destination: destination, 
+        var data = {username: username, name: name, department: department, destination: destination, 
                 travelDates: travelDates, reason: reason, plan: plan, fees: fees, expenses: expenses,
                 accomodation: accomodation, otherExpenses: otherExpenses, subsistence: subsistence,
                 activityInformation: activityInformation, signature: signature, conferenceReason: conferenceReason, conferenceTitle: conferenceTitle,
@@ -56,7 +57,7 @@ export default (app, http) => {
         let meetingTime = request.body.meetingTime;
         let role = request.body.role;
         let purpose = request.body.purpose;
-        var data = {name: name, department: department, destination: destination, 
+        var data = {username: username, name: name, department: department, destination: destination, 
           travelDates: travelDates, reason: reason, plan: plan, fees: fees, expenses: expenses,
           accomodation: accomodation, otherExpenses: otherExpenses, subsistence: subsistence,
           activityInformation: activityInformation, signature: signature, meetings: meetings, attendees: attendees, meetingDates: meetingDates,
@@ -64,14 +65,14 @@ export default (app, http) => {
     }
     else if (activityInformation == 'Marketing/Recruitment Event') {
       let otherReason = request.body.otherReason;
-      var data = {name: name, department: department, destination: destination, 
+      var data = {username: username, name: name, department: department, destination: destination, 
         travelDates: travelDates, reason: reason, plan: plan, fees: fees, expenses: expenses,
         accomodation: accomodation, otherExpenses: otherExpenses, subsistence: subsistence,
         activityInformation: activityInformation, signature: signature, otherReason: otherReason, confirmed: false};
     }
 
     else {
-      var data = {name: name, department: department, destination: destination, 
+      var data = {username: username, name: name, department: department, destination: destination, 
         travelDates: travelDates, reason: reason, plan: plan, fees: fees, expenses: expenses,
         accomodation: accomodation, otherExpenses: otherExpenses, subsistence: subsistence,
         activityInformation: activityInformation, signature: signature, confirmed: false};
@@ -100,11 +101,30 @@ export default (app, http) => {
           console.log('Email sent: ' +info.response);
         }
       });
-    });
-    //Respond with a page displaying the data again?
+      dbo.collection("users").findOne({username: data.username}, function(err, result) {
+        if(err) throw err;
+        if(result != null) {
+        var mailOptions = {
+          from: 'UNATravelForm@gmail.com',
+          to: result.email,
+          subject: 'Travel Request Submitted',
+          text: "Your travel request form has been submitted. You will be emailed again when it is confirmed/denied"
+        };
+        serverEmailAccount.sendMail(mailOptions, function(error, info) {
+          if (error) {
+            console.log(error);
+          } else {
+            console.log('Email sent: ' +info.response);
+          }
+        });}
+      });
+        
+      });
+      //Respond with a page displaying the data again?
     
     response.redirect(homepage);
-  });
+    });
+    
 
   //User login
   app.post('/api/login', function(request, response) {
@@ -119,10 +139,14 @@ export default (app, http) => {
         dbo.collection("users").findOne({username: user}, function(err, result) {
           if(result != null) {
             if(user === result.username) {
-              bcrypt.compare(pwd, result.password, function(err, result) {
-                  if(result == true) {
+              bcrypt.compare(pwd, result.password, function(err, samePwd) {
+                  if(samePwd == true) {
+                    if(result.admin) {
+                      response.send({message: "Success, admin"});
+                    }
                     //successful login
-                    response.send({message: "Success"});
+                    else
+                      response.send({message: "Success"});
                    
                   }
                   else {

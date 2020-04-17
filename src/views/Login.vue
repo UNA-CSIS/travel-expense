@@ -45,6 +45,7 @@
 
 <script>
 import axios from 'axios';
+
 export default {
   
   components: {
@@ -57,9 +58,6 @@ export default {
       message: "",
       signUpForm: false
   }),
-  mounted() {
-    console.log(this.signUpForm);
-  },
   methods: {
     login()  {
         axios({
@@ -72,7 +70,17 @@ export default {
               }
             }).then((response) => {
                 if(response.data.message == "Success") {
-                  window.location.href = "http://localhost:8080/";
+                  if(this.$session.exists())
+                    this.$session.destroy();
+                  this.$session.start();
+                  this.$session.set('username', this.username);
+                  this.$router.push('/');
+                }
+                else if (response.data.message == "Success, admin") {
+                  this.$session.start();
+                  this.$session.set('username', this.username);
+                  this.$session.set('admin', true);
+                  this.$router.push('/chairView');
                 }
                 else
                   this.message = response.data.message;

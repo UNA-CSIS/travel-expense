@@ -10,7 +10,11 @@
       </v-stepper-header>
       <v-stepper-items>
         <v-stepper-content :step="1">
+          <v-row no-gutters>
+          <v-text-field name="username" type="hidden" :value="this.username"></v-text-field>
+        </v-row>
           <stepOne />
+          
           <v-row no-gutters>
             <v-col cols="6"></v-col>
             <v-col cols="5">
@@ -66,13 +70,24 @@ export default {
     stepTwo,
     stepThree
   },
+  beforeCreate: function() {
+    if(!this.$session.exists()) {
+        this.$router.push('/login');
+    }
+    console.log(this.$session.get('admin'));
+    this.username = this.$session.get('username');
+  },
+  mounted: function() {
+    this.username = this.$session.get('username');
+  },
   data: () => ({
     e1: 1,
     stepOneComplete: true,
     stepTwoComplete: true,
     stepThreeComplete: true,
     stepTwoEditable: false,
-    stepThreeEditable: false
+    stepThreeEditable: false,
+    username: ""
   }),
   computed: {
     bDis(e1) {

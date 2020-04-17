@@ -76,6 +76,15 @@
     mounted() {
       this.loadForms();
     },
+    beforeCreate: function() {
+      if(!this.$session.exists()) {
+        this.$router.push('/login');
+    }
+    //If not an admin, send back to login page
+      if(!this.$session.get('admin')) {
+        this.$router.push('/login');
+      }
+    },
     methods: {
         loadForms() {
           axios.get("http://localhost:8888/api/form").then((response) => {
