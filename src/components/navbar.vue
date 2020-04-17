@@ -9,29 +9,37 @@
       </v-app-bar>
     </v-card>
     <v-navigation-drawer v-model="drawer" app class="purple">
-      <v-btn color="yellow" light href="/login">
+      <v-container>
+      <v-btn width="100%" color="yellow" light href="/login">
         <span>Login</span>
       </v-btn>
       <br />
-      <v-btn color="yellow" light href="/about">
+      </v-container>
+      <v-container>
+      <v-btn width="100%" color="yellow" light href="/about">
         <span>About</span>
       </v-btn>
       <br />
+      </v-container>
       <v-container v-if="this.loggedIn">
-      <v-btn color="yellow" light v-on:click="formPage">
+      <v-btn width="100%" color="yellow" light v-on:click="formPage">
         <span>Forms</span>
       </v-btn>
       <br />
       </v-container>
+  
       <v-container v-if="this.admin">
-      <v-btn color="yellow" light v-on:click="chairPage">
+        
+      <v-btn width="100%" color="yellow" light v-on:click="chairPage">
         <span>Chair View</span>
       </v-btn>
-      </v-container>
       <br />
-      <v-btn color="yellow" light v-on:click="logout">
+      </v-container>
+      <v-container>
+      <v-btn width="100%" color="yellow" light v-on:click="logout">
         <span>Log Out</span>
       </v-btn>
+      </v-container>
     </v-navigation-drawer>
   </nav>
 </template>
