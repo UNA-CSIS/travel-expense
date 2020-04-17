@@ -1,5 +1,6 @@
 <template>
 <v-container v-if="!signUpForm">
+  
      <v-layout justify-center align-center column>
 <v-form> 
     <v-row no-gutters><v-label>{{message}}</v-label></v-row>
@@ -49,14 +50,14 @@ import axios from 'axios';
 export default {
   
   components: {
-      
   },
   data: () => ({
       username: "",
       password: "",
       email: "",
       message: "",
-      signUpForm: false
+      signUpForm: false,
+      
   }),
   methods: {
     login()  {

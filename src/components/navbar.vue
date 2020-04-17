@@ -2,7 +2,7 @@
   <nav>
     <v-card class="overflow-hidden">
       <v-app-bar flat color="deep-purple accent-10" dense dark hide-on-scroll>
-        <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+        <v-app-bar-nav-icon @click="open"></v-app-bar-nav-icon>
         <v-toolbar-title>
           <span>UNA Business Trip Request</span>
         </v-toolbar-title>
@@ -17,13 +17,17 @@
         <span>About</span>
       </v-btn>
       <br />
+      <v-container v-if="this.loggedIn">
       <v-btn color="yellow" light v-on:click="formPage">
         <span>Forms</span>
       </v-btn>
       <br />
+      </v-container>
+      <v-container v-if="this.admin">
       <v-btn color="yellow" light v-on:click="chairPage">
         <span>Chair View</span>
       </v-btn>
+      </v-container>
       <br />
       <v-btn color="yellow" light v-on:click="logout">
         <span>Log Out</span>
@@ -35,13 +39,34 @@
 <script>
 export default {
   data: () => ({
-    //
+    loggedIn: false,
+    admin: false,
     drawer: false
   }),
+
+  mounted: function() {
+    this.getPermissions();
+  },
+  
   methods: {
+    open() {
+      this.getPermissions();
+      this.drawer=!this.drawer;
+    },
+    getPermissions() {
+      console.log("Called");
+      if(this.$session.exists()) {
+        this.loggedIn = true;
+        if(this.$session.get('admin'))
+          this.admin = true;
+      }
+    },
     logout() {
+        this.admin = false;
+        this.loggedIn = false;
         this.$session.destroy();
         this.$router.push('/login');
+        
     },
 
     formPage() {
