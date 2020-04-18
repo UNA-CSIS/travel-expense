@@ -4,7 +4,7 @@
        <v-card width="40%">
       <v-card-title class="justify-center">Login</v-card-title>
 <v-form> 
-    <v-row no-gutters><v-label>{{message}}</v-label></v-row>
+    <v-row no-gutters><v-spacer></v-spacer><v-label>{{message}}</v-label><v-spacer></v-spacer></v-row>
     <v-row no-gutters>
        <v-spacer></v-spacer> <v-text-field :username="username" justify="center" align="center"
          name="username" v-model="username" label="Username" required></v-text-field><v-spacer></v-spacer>
@@ -28,7 +28,7 @@
       <v-card width="40%">
       <v-card-title class="justify-center">Sign Up For a New Account</v-card-title>
 <v-form> 
-    <v-row no-gutters><v-label>{{message}}</v-label></v-row>
+    <v-row no-gutters><v-spacer></v-spacer><v-label>{{message}}</v-label><v-spacer></v-spacer></v-row>
     <v-row no-gutters>
           <v-spacer></v-spacer><v-text-field :username = "username" justify="center" align="center" name="username" v-model="username" label="Username" required></v-text-field><v-spacer></v-spacer>
         </v-row>
@@ -102,7 +102,9 @@ export default {
               }
             }).then((response) => {
                 if(response.data.message == "Success") {
-                  window.location.href = "http://localhost:8080/";
+                  this.$session.start();
+                  this.$session.set('username', this.username);
+                  this.$router.push('/');
                 }
                 else
                   this.message = response.data.message;
