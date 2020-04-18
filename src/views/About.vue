@@ -1,21 +1,21 @@
 <template>
   <div>
-    <p class="text-center">UNIVERSITY OF NORTH ALABAMA TRAVEL POLICY</p>
-
-    <p class="text-sm-left">
-      The travel policies of the University of North Alabama have been developed
+      <v-layout justify-center align-center>
+       <v-card width="50%">
+      <v-card-title class="justify-center">UNIVERSITY OF NORTH ALABAMA TRAVEL POLICY</v-card-title>
+      <v-container>
+      <v-row>The travel policies of the University of North Alabama have been developed
       in accordance with Alabama law and Internal Revenue Service regulations
       and guidelines. These policies cover University employees, students and
-      others who travel on approved, official University business.
-    </p>
-
-    <p class="text-sm-left">
+      others who travel on approved, official University business.</v-row>
+    <br />
+    <v-row>
       At a minimum, employees must obtain prior approval of the immediate
       supervisor before traveling or obligating University funds. Some types of
       travel require additional authorization.
-    </p>
-
-    <p class="text-sm-left">
+    </v-row>
+    <br />
+    <v-row>
       When traveling at the University of North Alabama’s expense, University
       employees should, in all cases, seek to obtain the lowest possible fares
       and rates by scheduling their travel in a manner that will be the most
@@ -23,27 +23,39 @@
       reimbursed. It is the employee’s responsibility to obtain proper
       documentation of the travel costs when seeking reimbursement for incurred
       expenses.
-    </p>
-
-    <p class="text-sm-left">
+    </v-row>
+    <br />
+    <v-row>
       In all cases, there must be a clear, documented business purpose for
       travel. Excessive or unjustifiable costs are not acceptable and will not
       be paid by or reimbursed from university funds
-    </p>
-    <p class="text-center">GENERAL</p>
-
-    <p class="text-sm-left">
+    </v-row>
+      
+    <br />
+    
+    <v-row><v-btn v-on:click="generalText = !generalText" width="100%" color="primary">GENERAL INFORMATION</v-btn></v-row>
+    <v-container v-if="generalText">
+    <v-row>
+      <v-btn v-on:click="travelStatus = ! travelStatus" width="100%">Travel Status</v-btn>
+      <v-container v-if="travelStatus">
+        <v-row>
       Travel Status - Employees are in travel status when they leave their base.
       Base is defined as the employees’ primary residence or work location
       whichever is closest to the travel destination. Work location is defined
       as the office location to which an employee is assigned.
-    </p>
-
-    <p class="text-sm-left">
+    </v-row>
+    <br />
+      </v-container>
+    </v-row>
+    <br />
+    <v-row>
+    <v-btn v-on:click="travelClaim = !travelClaim" width="100%">Claim for Travel Expenses</v-btn>
+    <v-container v-if="travelClaim">
+    <v-row>
       Claim for Travel Expenses – Claim forms for In-State/Out-of-State Travel
       Expenses are used to record all reimbursable employee travel costs and
       note university paid travel costs. All claims for travel reimbursement
-      must be made on an In-State or Outof-State travel form. These forms are
+      must be made on an In-State or Out-of-State travel form. These forms are
       located at http://www.una.edu/controller/index.html. Requests for
       reimbursement should be submitted within sixty (60) days after completion
       of the trip. Original itemized receipts and other documentation of the
@@ -61,8 +73,15 @@
       of reimbursement. Any expenses covered by the university or a third party
       should be noted on the travel form to provide clarity of the entire trip
       expense.
-    </p>
-    <p class="text-sm-left">
+    </v-row>
+    <br />
+    </v-container>
+    </v-row>
+    <br />
+    <v-row>
+    <v-btn v-on:click="documentation = !documentation" width="100%">Documentation of Costs/Approval of Travel Reimbursement</v-btn>
+    <v-container v-if="documentation">
+    <v-row>
       Documentation of Costs/Approval of Travel Reimbursement - After returning
       from official travel, employees are required to present original itemized
       receipts for all actual travel expenses for which a claim is made. See
@@ -72,8 +91,10 @@
       literature documenting the expense, a registration receipt, including
       dollar amount and method of payment, or other proof of payment must be
       submitted along with the claim for travel form.
-    </p>
-    <p class="text-sm-left">
+    </v-row>
+    <br />
+    
+    <v-row>
       Approval of Travel Reimbursement by Supervisor, Dean, Director or
       Department Head -The University requires that claims from University
       Travel Expense Forms be signed by the supervisor (not a designee or stamp)
@@ -85,21 +106,29 @@
       his/her supervisor. Deans and department heads may establish more, but not
       less, restrictive policies than what is required by the university, as
       reimbursement approval from budgets for which they are responsible..
-    </p>
-    <p class="text-sm-left">
+    </v-row>
+    <br />
+    <v-row>
       Exceptions –Generally, any exception to University travel policies should
       have prior written authorization from the appropriate Dean or Executive
       Council Member and the University Controller. Rules promulgated by the
       State of Alabama have precedence.
-    </p>
-    <p class="text-sm-left">
+    </v-row>
+    </v-container>
+    </v-row>
+    <br />
+    <v-row>
+    <v-btn v-on:click="other = !other" width="100%">Other Information</v-btn>
+    <v-container v-if="other">
+    <v-row>
       Travel Reimbursement for Executive Officers - The President’s and Vice
       Presidents’ request for travel reimbursement must be reviewed and approved
       by the Vice President for Business & Financial Affairs. Reimbursement
       requests from the Vice President for Business & Financial Affairs must be
       reviewed and approved by the President.
-    </p>
-    <p class="text-sm-left">
+    </v-row>
+    <br />
+    <v-row>
       Contract and Grant Travel Reimbursement - Travel reimbursement from
       contract and grant funds require submission of the Grants and Contracts
       Travel form found on the Grant Accounting website:
@@ -111,46 +140,74 @@
       director’s supervisor. All Reimbursement will be subject to the
       University’s policies, unless the contract or grant prohibits
       reimbursement of certain expenses.
-    </p>
-    <p class="text-sm-left">
+    </v-row>
+    <br />
+    <v-row>
       Travel During Faculty Professional Development Leave - With prior approval
       from the Provost, travel expenses incurred during a faculty professional
       development leave period may be reimbursed if they are connected with
       official travel in the performance of University duties.
-    </p>
-    <p class="text-sm-left">
+    </v-row>
+    <br />
+    <v-row>
       Travel Expenses Advancement - The University does not advance funds for
       travel expenses for employee travel; with the exception of those
       pre-authorized expenses paid with a university purchase order or
       university p-card.
-    </p>
-    <p class="text-sm-left">
+    </v-row>
+    <br />
+    <v-row>
       Multiple Reimbursements Channels - No employee may be reimbursed by both
       the University and another organization for the same travel expenses.
-    </p>
-    <p class="text-sm-left">
+    </v-row>
+    <br />
+    <v-row>
       Special Travel Requirements-If an employee has special travel requirements
       that are not covered by the above policies, contact the University’s
       Controller’s Office prior to travel for approval.
-    </p>
-    <p class="text-sm-left">
+    </v-row>
+    <br />
+    <v-row>
       Early Arrival/Early Departure - If an employee chooses to arrive early for
       a conference or meeting to take advantage of reduced airfare, the employee
       must reconcile the standard economy airfare with the reduced airfare, the
       additional hotel and meal expenses, and other expenses that were incurred
       because of early arrival. This reconciliation should be submitted with the
       claim for travel expenses form.
-    </p>
-    <p class="text-sm-left">
+    </v-row>
+    <br />
+    <v-row>
       Interrupted Travel - The employee assumes all additional costs associated
       with deviating from the official travel itinerary if the employee
       interrupts the official travel for reasons of personal convenience.
-    </p>
-    <p class="text-sm-left">
+    </v-row>
+    <br />
+    <v-row>
       Cancellation of Trip – The traveler is responsible for obtaining credit
       for all expenses. Please contact the Controller’s Office at ext. 4232 or
       via e-mail when an official trip has to be cancelled to prevent potential
       reimbursement problems.
-    </p>
+    </v-row>
+    </v-container>
+    </v-row>
+      </v-container>
+      </v-container>
+       </v-card>
+      </v-layout>
   </div>
 </template>
+
+<script>
+
+export default {
+  data: () => ({
+      generalText: false,
+      travelStatus: false,
+      travelClaim: false,
+      documentation: false,
+      other: false,
+  })
+};
+
+
+</script>
