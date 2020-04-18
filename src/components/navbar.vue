@@ -62,7 +62,6 @@ export default {
       this.drawer=!this.drawer;
     },
     getPermissions() {
-      console.log("Called");
       if(this.$session.exists()) {
         this.loggedIn = true;
         if(this.$session.get('admin'))
