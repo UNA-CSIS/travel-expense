@@ -224,10 +224,30 @@ app.put('/api/form', function(request, response) {
     let dbo = client.db("project");
     dbo.collection("expenseReports").updateOne({name: request.body.name, department: request.body.department,
                                               destination: request.body.destination, travelDates: request.body.travelDates,
-                                              reason: request.body.reason}, {$set: {confirmed: true}}, 
+                                              reason: request.body.reason, username: request.body.username}, {$set: {confirmed: true}}, 
       function(err, result) {
+        if(err) throw err;
         if(result != null) {
           response.send("Report has been confirmed");
+          dbo.collection("users").findOne({username: request.body.username}, function(err, userResult){
+            if(err) throw err;
+            else {
+            var mailOptions = {
+              from: 'UNATravelForm@gmail.com',
+              to: userResult.email,
+              subject: 'Travel Request Accepted',
+              text: "Your travel request for " + request.body.destination + " has been accepted."
+            };
+            serverEmailAccount.sendMail(mailOptions, function(error, info) {
+              if (error) {
+                console.log(error);
+              } else {
+                console.log('Email sent: ' +info.response);
+              }
+            });
+          }
+          });
+          
         }
       });
 });
@@ -238,13 +258,31 @@ app.delete('/api/form', function(request, response) {
     let dbo = client.db("project");
     dbo.collection("expenseReports").remove({name: request.body.name, department: request.body.department,
                                               destination: request.body.destination, travelDates: request.body.travelDates,
-                                              reason: request.body.reason}, {justOne: true}, 
+                                              reason: request.body.reason, username: request.body.username}, {justOne: true}, 
       function(err, result) {
         if(result != null) {
           response.send("Report has been deleted");
+          dbo.collection("users").findOne({username: request.body.username}, function(err, userResult){
+            if(err) throw err;
+            else {
+            var mailOptions = {
+              from: 'UNATravelForm@gmail.com',
+              to: userResult.email,
+              subject: 'Travel Request Declined',
+              text: "Your travel request for " + request.body.destination + " has been declined."
+            };
+            serverEmailAccount.sendMail(mailOptions, function(error, info) {
+              if (error) {
+                console.log(error);
+              } else {
+                console.log('Email sent: ' +info.response);
+              }
+            });
+          }
+        });
         }
-      });
     });
+});
 });
 app.post('/api/formDetail', function(request, response) {
   mongo.connect(url, function(err, client) {

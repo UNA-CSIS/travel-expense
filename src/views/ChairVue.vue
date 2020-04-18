@@ -1,6 +1,6 @@
   <template>
   <v-container v-if="showTable">
-    <v-card>
+    <v-card >
       <v-card-title>Submitted Forms<v-spacer></v-spacer>
       <v-text-field
         v-model="search"
@@ -39,12 +39,12 @@
                       <td>{{key}}</td>
                       <td>{{item}}</td>
                     </tr>
-                    <tr>
-                     <td><v-btn v-on:click="showTable = !showTable" justify="center" align="center" color="primary">Go back to table</v-btn></td>
-        <td><v-btn v-on:click="confirmReport" color="primary">Confirm Payment for Travel</v-btn> </td>
-        <td><v-btn v-on:click="denyReport" color="primary">Deny Trip Payment</v-btn></td></tr>
                   </tbody>
             </v-simple-table>
+
+        <v-row><v-spacer></v-spacer><v-btn v-on:click="showTable = !showTable" color="primary">Go back to table</v-btn>
+       <v-spacer></v-spacer><v-btn v-on:click="confirmReport" color="primary">Confirm Payment for Travel</v-btn><v-spacer></v-spacer>
+        <v-btn v-on:click="denyReport" color="primary">Deny Trip Payment</v-btn><v-spacer></v-spacer></v-row>
     </v-card>
   </v-container>
     
@@ -119,7 +119,8 @@
                 department: this.details.department,
                 destination: this.details.destination,
                 travelDates: this.details.travelDates,
-                reason: this.details.reason
+                reason: this.details.reason,
+                username: this.details.username
               }
           }).then(() => {
             alert("Travel Report has been confirmed");
@@ -136,7 +137,8 @@
                 department: this.details.department,
                 destination: this.details.destination,
                 travelDates: this.details.travelDates,
-                reason: this.details.reason
+                reason: this.details.reason,
+                username: this.details.username
               }
           }).then(() => {
             alert("Travel Report has been declined");
