@@ -1,6 +1,7 @@
 import express from 'express';
 var nodemailer = require('nodemailer');
 var mongo = require('mongodb').MongoClient;
+var mongoConstruct = require('mongodb');
 let cors = require('cors');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
@@ -210,9 +211,11 @@ app.get('/api/form', function(request, response) {
         console.log("Couldn't find a form");
       }
       else {
-        data.push({name: result.name, location: result.destination, date: result.travelDates, confirmed: result.confirmed});
+        console.log(result._id);
+        data.push({name: result.name, location: result.destination, date: result.travelDates, confirmed: result.confirmed, _id: result._id});
       }
     }).then(function() {
+     // console.log(data);
       response.send(data);
     });
   });
@@ -294,8 +297,10 @@ app.post('/api/formDetail', function(request, response) {
     response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     response.header("Access-Control-Allow-Methods", "POST, OPTIONS");
     let data = [];
-    dbo.collection("expenseReports").findOne({name: request.body.name, travelDates: request.body.travelDates, 
-            destination: request.body.destination}).then((result) => {
+    console.log(request.body.id);
+    var o_id = new mongoConstruct.ObjectID(request.body.id);
+    dbo.collection("expenseReports").findOne({"_id": o_id}).then((result) => {
+                console.log(result);
                 response.send(result);
             }).catch((error) => {
               throw error;

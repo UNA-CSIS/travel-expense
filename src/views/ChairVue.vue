@@ -13,13 +13,13 @@
       <v-layout justify-center align-center column>
         <v-data-table v-model="selected" 
                       :headers="headers" 
-                      :items="submittedForms"
+                      :items="indexedItems"
                       :single-select=true
-                      :search="search"
-                      item-key = "name" 
+                      :search="search" 
+                      item-key = "selectedPosition"
                       show-select>
         </v-data-table>
-        <v-btn v-on:click="getDetails" justify="center" align="center" color="primary">Get Details</v-btn>
+        <v-btn v-if="selected.length != 0" v-on:click="getDetails" justify="center" align="center" color="primary">Get Details</v-btn>
           </v-layout>
     </v-card>
   </v-container>
@@ -35,7 +35,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="(item, key) in details" :key="item.name">
+                    <tr v-for="(item, key) in details" :key="key">
                       <td>{{key}}</td>
                       <td>{{item}}</td>
                     </tr>
@@ -52,8 +52,13 @@
   <script>
   import axios from 'axios';
   export default {
-    components: {
-        
+    computed: {
+      indexedItems () {
+      return this.submittedForms.map((item, index) => ({
+        selectedPosition: index,
+        ...item
+      }))
+    }
     },
     data: () => ({
         showTable: true,
@@ -103,7 +108,8 @@
               data: {
                 name: this.selected[0].name,
                 destination : this.selected[0].location,
-                travelDates: this.selected[0].date
+                travelDates: this.selected[0].date,
+                id: this.submittedForms[this.selected[0].selectedPosition]._id
               }
             }).then((response) => {
                 this.details = response.data;
