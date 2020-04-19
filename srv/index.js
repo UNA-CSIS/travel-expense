@@ -211,11 +211,9 @@ app.get('/api/form', function(request, response) {
         console.log("Couldn't find a form");
       }
       else {
-        console.log(result._id);
         data.push({name: result.name, location: result.destination, date: result.travelDates, confirmed: result.confirmed, _id: result._id});
       }
     }).then(function() {
-     // console.log(data);
       response.send(data);
     });
   });
@@ -272,7 +270,7 @@ app.delete('/api/form', function(request, response) {
               from: 'UNATravelForm@gmail.com',
               to: userResult.email,
               subject: 'Travel Request Declined',
-              text: "Your travel request for " + request.body.destination + " has been declined."
+              text: "Your travel request for " + request.body.destination + " has been declined. \nReason: " + request.body.reasonForDenial
             };
             serverEmailAccount.sendMail(mailOptions, function(error, info) {
               if (error) {

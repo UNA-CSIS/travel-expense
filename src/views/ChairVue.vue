@@ -135,6 +135,11 @@
           });
         },
         denyReport() {
+          var reasonForDenial = prompt("Enter a reason for the denial");
+          if (reasonForDenial == null || reasonForDenial == "") {
+            alert("Request not denied")
+          } else {
+          
           axios({
               method: 'delete',
               url: "http://localhost:8888/api/form",
@@ -144,13 +149,15 @@
                 destination: this.details.destination,
                 travelDates: this.details.travelDates,
                 reason: this.details.reason,
-                username: this.details.username
+                username: this.details.username,
+                reasonForDenial: reasonForDenial
               }
           }).then(() => {
             alert("Travel Report has been declined");
             this.loadForms();
             this.showTable = true;
           });
+          }
         }
     }
   };
