@@ -133,6 +133,10 @@ export default (app, http) => {
     response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
       let user = request.body.username;
       let pwd = request.body.password;
+      if(typeof user != `string` || typeof pwd != `string`) {
+        response.send({message: "Wrong username/password"});
+      }
+      else {
       mongo.connect(url, function(err, client) {
         if (err) throw err;
         let dbo = client.db("project");
@@ -164,6 +168,7 @@ export default (app, http) => {
         client.close();
       });
   });
+  }
 });
 
 //Create new account
@@ -171,7 +176,10 @@ app.post('/api/createAcc', function(request, response) {
   let user = request.body.username;
   let pwd = request.body.password;
   let email = request.body.email;
-  
+  if(typeof user != `string` || typeof pwd != `string`) {
+    response.send({message: "Wrong username/password"});
+  }
+  else {
   mongo.connect(url, function(err, client) {
     if (err) throw err;
     let dbo = client.db("project");
@@ -192,6 +200,7 @@ app.post('/api/createAcc', function(request, response) {
       }
     });
   });
+}
 });
 
 app.get('/api/form', function(request, response) {
