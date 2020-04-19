@@ -26,7 +26,7 @@
             <template v-slot:activator="{ on }">
               <v-text-field
                 name="travelDates"
-                v-model="dateRangeText"
+                v-model="finalDate"
                 :rules="travelRules"
                 label="Travel Dates"
                 prepend-icon="mdi-calendar"
@@ -39,11 +39,10 @@
             no-title 
             scrollable 
             range 
-            header-date-format="mm/dd/yyyy"
             >
               <v-spacer></v-spacer>
               <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
-              <v-btn text color="primary" @click="$refs.menu.save(date)">Ok</v-btn>
+              <v-btn text color="primary" @click="dateRangeText">Ok</v-btn>
             </v-date-picker>
           </v-menu>
         </v-row>
@@ -71,13 +70,13 @@
         </v-row>
       </v-col>
     </v-row>
-   <!-- </v-form> -->
   </nav>
 </template>
 
 <script>
 export default {
   data: () => ({
+    finalDate: "",
     valid: false,
     name: "",
     nameRules: [v => !!v || "Name is required"],
@@ -94,12 +93,7 @@ export default {
     itineraryRules: [v => !!v || "Itinerary is required"],
   }),
   computed: {
-    dateRangeText() {
-      if (this.dates[0] != "" && this.dates[0] == this.dates[1])
-        return this.dates[0];
-      if(this.dates[0] != "") return this.dates.join(" - ");
-      else return "";
-    },
+    
     complete() {
       if (this.name == "" ||
         this.dept == "" ||
@@ -110,6 +104,28 @@ export default {
         )
           return false;
         else return true;
+    }
+  },
+  methods: {
+    dateRangeText() {
+      this.menu = false;
+      if (this.dates[0] != "" && (this.dates[1] == "" || this.dates[1] == null)) {
+        this.dates[0] = this.formatDate(this.dates[0]);
+        this.finalDate = this.dates[0]
+        return this.dates[0];
+      }
+      else if(this.dates[0] != "" && this.dates[1] != "") {
+        this.dates[0] = this.formatDate(this.dates[0]);
+        this.dates[1] = this.formatDate(this.dates[1]);
+        this.finalDate = this.dates.join(' - ');
+      } 
+      else return "";
+    },
+    formatDate(date) {
+      if(!date) return null
+      if (date.includes("/")) return date
+      const [year, month, day] = date.split('-')
+      return `${month}/${day}/${year}`
     }
   }
 };

@@ -296,11 +296,9 @@ app.post('/api/formDetail', function(request, response) {
     response.header("Access-Control-Allow-Origin", "*");
     response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     response.header("Access-Control-Allow-Methods", "POST, OPTIONS");
-    let data = [];
-    console.log(request.body.id);
     var o_id = new mongoConstruct.ObjectID(request.body.id);
     dbo.collection("expenseReports").findOne({"_id": o_id}).then((result) => {
-                console.log(result);
+              
                 response.send(result);
             }).catch((error) => {
               throw error;

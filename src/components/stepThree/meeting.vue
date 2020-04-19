@@ -36,7 +36,7 @@
         <template v-slot:activator="{ on }">
           <v-text-field
             name="meetingDates"
-            v-model="dateRangeText"
+            v-model="finalDate"
             :rules="dateRules"
             label="Date of meeting(s)"
             prepend-icon="mdi-calendar"
@@ -47,7 +47,7 @@
         <v-date-picker v-model="dates" no-title scrollable range>
           <v-spacer></v-spacer>
           <v-btn text color="primary" @click="dateMenu = false">Cancel</v-btn>
-          <v-btn text color="primary" @click="$refs.dateMenu.save(date)">Ok</v-btn>
+          <v-btn text color="primary" @click="dateRangeText">Ok</v-btn>
         </v-date-picker>
       </v-menu>
     </v-row>
@@ -99,6 +99,7 @@ export default {
     dates: ["", ""],
     role: "",
     purpose: "",
+    finalDate: "",
     dateMenu: false,
     timeMenu: false,
     time: null,
@@ -111,12 +112,26 @@ export default {
     roleRules: [v => !!v || "Your role is required"],
     purposeRules: [v => !!v || "Your purpose in the meeting is required"]
   }),
-  computed: {
+  methods: {
     dateRangeText() {
-      if (this.dates[0] != "" && this.dates[0] == this.dates[1])
+      this.dateMenu = false;
+      if (this.dates[0] != "" && (this.dates[1] == "" || this.dates[1] == null)) {
+        this.dates[0] = this.formatDate(this.dates[0]);
+        this.finalDate = this.dates[0]
         return this.dates[0];
-      else if (this.dates[0] != "") return this.dates.join(" - ");
+      }
+      else if(this.dates[0] != "" && this.dates[1] != "") {
+        this.dates[0] = this.formatDate(this.dates[0]);
+        this.dates[1] = this.formatDate(this.dates[1]);
+        this.finalDate = this.dates.join(' - ');
+      } 
       else return "";
+    },
+    formatDate(date) {
+      if(!date) return null
+      if (date.includes("/")) return date
+      const [year, month, day] = date.split('-')
+      return `${month}/${day}/${year}`
     }
   }
 };

@@ -36,7 +36,7 @@
             <v-col cols="5">
               <v-btn 
               color="primary" 
-              :disabled="!stepTwoComplete" 
+              :disabled="stepTwoComplete" 
               @click="e1 = 3; stepThreeEditable = true"
               >Next</v-btn>
             </v-col>
