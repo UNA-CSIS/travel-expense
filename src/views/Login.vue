@@ -128,10 +128,12 @@ import axios from "axios";
 export default {
   components: {},
   data: () => ({
+    //Ensures all text fields on this page start as blanks
     username: "",
     password: "",
     email: "",
     message: "",
+    //Determines if the sign up form is shown
     signUpForm: false
   }),
   methods: {
