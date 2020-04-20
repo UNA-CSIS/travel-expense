@@ -124,7 +124,6 @@
 
 <script>
 import axios from "axios";
-
 export default {
   components: {},
   data: () => ({
@@ -141,7 +140,6 @@ export default {
       axios({
         method: "post",
         url: "http://localhost:8888/api/login",
-
         data: {
           username: this.username,
           password: this.password
@@ -164,7 +162,6 @@ export default {
       axios({
         method: "post",
         url: "http://localhost:8888/api/createAcc",
-
         data: {
           username: this.username,
           password: this.password,

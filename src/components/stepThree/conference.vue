@@ -54,7 +54,12 @@
       </v-menu>
     </v-row>
     <v-row no-gutters>
-      <v-text-field name="conferenceWebsite" v-model="site" label="Conference/Seminar Web Site" hint="If applicable"></v-text-field>
+      <v-text-field
+        name="conferenceWebsite"
+        v-model="site"
+        label="Conference/Seminar Web Site"
+        hint="If applicable"
+      ></v-text-field>
     </v-row>
     <v-row no-gutters>
       <v-textarea
@@ -80,31 +85,34 @@ export default {
     finalDate: "",
     menu: false,
     other: "",
-    reasonRules: [v => !!v || "A reason for attendance is required"],
-    titleRules: [v => !!v || "The title of the seminar/conference is required"],
-    dateRules: [v => !!v || "At least one conference date is required"]
+    reasonRules: [(v) => !!v || "A reason for attendance is required"],
+    titleRules: [
+      (v) => !!v || "The title of the seminar/conference is required",
+    ],
+    dateRules: [(v) => !!v || "At least one conference date is required"],
   }),
   methods: {
     dateRangeText() {
       this.menu = false;
-      if (this.dates[0] != "" && (this.dates[1] == "" || this.dates[1] == null)) {
+      if (
+        this.dates[0] != "" &&
+        (this.dates[1] == "" || this.dates[1] == null)
+      ) {
         this.dates[0] = this.formatDate(this.dates[0]);
-        this.finalDate = this.dates[0]
+        this.finalDate = this.dates[0];
         return this.dates[0];
-      }
-      else if(this.dates[0] != "" && this.dates[1] != "") {
+      } else if (this.dates[0] != "" && this.dates[1] != "") {
         this.dates[0] = this.formatDate(this.dates[0]);
         this.dates[1] = this.formatDate(this.dates[1]);
-        this.finalDate = this.dates.join(' - ');
-      } 
-      else return "";
+        this.finalDate = this.dates.join(" - ");
+      } else return "";
     },
     formatDate(date) {
-      if(!date) return null
-      if (date.includes("/")) return date
-      const [year, month, day] = date.split('-')
-      return `${month}/${day}/${year}`
-    }
-  }
+      if (!date) return null;
+      if (date.includes("/")) return date;
+      const [year, month, day] = date.split("-");
+      return `${month}/${day}/${year}`;
+    },
+  },
 };
 </script>

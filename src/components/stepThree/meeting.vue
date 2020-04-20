@@ -53,7 +53,6 @@
     </v-row>
     <v-row no-gutters>
       <v-menu
-        
         ref="timeMenu"
         v-model="timeMenu"
         :close-on-content-click="false"
@@ -65,7 +64,14 @@
         min-width="290px"
       >
         <template v-slot:activator="{ on }">
-          <v-text-field name="meetingTime" v-model="time" label="Time of meeting(s)" prepend-icon="mdi-clock-outline" readonly v-on="on"></v-text-field>
+          <v-text-field
+            name="meetingTime"
+            v-model="time"
+            label="Time of meeting(s)"
+            prepend-icon="mdi-clock-outline"
+            readonly
+            v-on="on"
+          ></v-text-field>
         </template>
         <v-time-picker
           v-if="timeMenu"
@@ -87,7 +93,13 @@
       ></v-text-field>
     </v-row>
     <v-row no-gutters>
-      <v-text-field name="purpose" v-model="purpose" label="Purpose in meeting(s)" :rules="purposeRules" required></v-text-field>
+      <v-text-field
+        name="purpose"
+        v-model="purpose"
+        label="Purpose in meeting(s)"
+        :rules="purposeRules"
+        required
+      ></v-text-field>
     </v-row>
   </nav>
 </template>
@@ -103,36 +115,37 @@ export default {
     dateMenu: false,
     timeMenu: false,
     time: null,
-    meetingRules: [v => !!v || "A reason for attendance is required"],
+    meetingRules: [(v) => !!v || "A reason for attendance is required"],
     attendeeRules: [
-      v => !!v || "The title of the seminar/conference is required"
+      (v) => !!v || "The title of the seminar/conference is required",
     ],
-    dateRules: [v => !!v || "At least one conference date is required"],
-    timeRules: [v => !!v || "At least one meeting time is required"],
-    roleRules: [v => !!v || "Your role is required"],
-    purposeRules: [v => !!v || "Your purpose in the meeting is required"]
+    dateRules: [(v) => !!v || "At least one conference date is required"],
+    timeRules: [(v) => !!v || "At least one meeting time is required"],
+    roleRules: [(v) => !!v || "Your role is required"],
+    purposeRules: [(v) => !!v || "Your purpose in the meeting is required"],
   }),
   methods: {
     dateRangeText() {
       this.dateMenu = false;
-      if (this.dates[0] != "" && (this.dates[1] == "" || this.dates[1] == null)) {
+      if (
+        this.dates[0] != "" &&
+        (this.dates[1] == "" || this.dates[1] == null)
+      ) {
         this.dates[0] = this.formatDate(this.dates[0]);
-        this.finalDate = this.dates[0]
+        this.finalDate = this.dates[0];
         return this.dates[0];
-      }
-      else if(this.dates[0] != "" && this.dates[1] != "") {
+      } else if (this.dates[0] != "" && this.dates[1] != "") {
         this.dates[0] = this.formatDate(this.dates[0]);
         this.dates[1] = this.formatDate(this.dates[1]);
-        this.finalDate = this.dates.join(' - ');
-      } 
-      else return "";
+        this.finalDate = this.dates.join(" - ");
+      } else return "";
     },
     formatDate(date) {
-      if(!date) return null
-      if (date.includes("/")) return date
-      const [year, month, day] = date.split('-')
-      return `${month}/${day}/${year}`
-    }
-  }
+      if (!date) return null;
+      if (date.includes("/")) return date;
+      const [year, month, day] = date.split("-");
+      return `${month}/${day}/${year}`;
+    },
+  },
 };
 </script>

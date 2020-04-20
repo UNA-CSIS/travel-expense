@@ -1,7 +1,11 @@
 <template>
   <nav>
     <v-row no-gutters justify="center">
-      <v-col cols="3" style="min-width: 100px" class="flex-grow-1 flex-shrink-0">
+      <v-col
+        cols="3"
+        style="min-width: 100px"
+        class="flex-grow-1 flex-shrink-0"
+      >
         <v-select
           name="activityInformation"
           v-model="choice"
@@ -13,7 +17,11 @@
       </v-col>
     </v-row>
     <v-row no-gutters justify="center">
-      <v-col cols="8" style="min-width: 100px" class="flex-grow-1 flex-shrink-0">
+      <v-col
+        cols="8"
+        style="min-width: 100px"
+        class="flex-grow-1 flex-shrink-0"
+      >
         <div v-if="choice == 'Attendance at Conference or Seminar'">
           <conference />
         </div>
@@ -29,20 +37,25 @@
         <div v-if="choice != ''">
           <br />
           <v-row no-gutters>
-          <v-col cols="6" style="min-width: 100px">
-            <v-text-field
-            name="signature"
-            v-model="signature" 
-            label="Traveler's Signature"
-            :rules="signatureRules"
-            required
-            ></v-text-field>
-          </v-col>
-          <v-col cols="1" style="min-width: 100px"></v-col>
-          <v-col cols="3" style="min-width: 100px">
-            <v-text-field v-model="date" label="Date" required :disabled=true></v-text-field>
-          </v-col>
-        </v-row>
+            <v-col cols="6" style="min-width: 100px">
+              <v-text-field
+                name="signature"
+                v-model="signature"
+                label="Traveler's Signature"
+                :rules="signatureRules"
+                required
+              ></v-text-field>
+            </v-col>
+            <v-col cols="1" style="min-width: 100px"></v-col>
+            <v-col cols="3" style="min-width: 100px">
+              <v-text-field
+                v-model="date"
+                label="Date"
+                required
+                :disabled="true"
+              ></v-text-field>
+            </v-col>
+          </v-row>
         </div>
       </v-col>
     </v-row>
@@ -58,7 +71,7 @@ export default {
   components: {
     conference,
     meeting,
-    eventother
+    eventother,
   },
   data: () => ({
     choice: "",
@@ -68,18 +81,17 @@ export default {
       "Attendance at Conference or Seminar",
       "Business Meeting",
       "Marketing/Recruitment Event",
-      "Other Activity"
+      "Other Activity",
     ],
-    actChoiceRules: [v => !!v || "Required"],
-    signatureRules: [v => !!v || "Traveler's signature is required"]
+    actChoiceRules: [(v) => !!v || "Required"],
+    signatureRules: [(v) => !!v || "Traveler's signature is required"],
   }),
   computed: {
     complete() {
       if (this.choice != "" && this.signature != "") {
         return true;
-      } else
-        return false;
-    }
-  }
+      } else return false;
+    },
+  },
 };
 </script>

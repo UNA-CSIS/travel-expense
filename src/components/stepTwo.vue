@@ -1,7 +1,11 @@
 <template>
   <nav>
     <v-row no-gutters justify="center">
-      <v-col cols="8" style="min-width: 100px" class="flex-grow-1 flex-shrink 0">
+      <v-col
+        cols="8"
+        style="min-width: 100px"
+        class="flex-grow-1 flex-shrink 0"
+      >
         <v-row no-gutters>
           <v-text-field
             name="fees"
@@ -62,31 +66,51 @@
           ></v-text-field>
         </v-row>
         <v-container v-if="othValue > 0">
-        <v-row no-gutters>
-          <v-col cols="2">
-            <v-checkbox name="carHire" v-model="optOne" :label="`Car hire`"></v-checkbox>
-          </v-col>
-          <v-col cols="3">
-            <v-checkbox name="mileage" v-model="optTwo" :label="`Mileage cost`"></v-checkbox>
-          </v-col>
-          <v-col cols="2">
-            <v-checkbox name="taxis" v-model="optThree" :label="`Taxis`"></v-checkbox>
-          </v-col>
-          <v-col cols="3">
-            <v-checkbox name="carParking" v-model="optFour" :label="`Car parking`"></v-checkbox>
-          </v-col>
-          <v-col cols="2">
-            <v-checkbox name="otherFees" v-model="optFive" :label="`Other`"></v-checkbox>
-          </v-col>
-        </v-row>
-        <v-row v-if="optFive" no-gutters>
+          <v-row no-gutters>
+            <v-col cols="2">
+              <v-checkbox
+                name="carHire"
+                v-model="optOne"
+                :label="`Car hire`"
+              ></v-checkbox>
+            </v-col>
+            <v-col cols="3">
+              <v-checkbox
+                name="mileage"
+                v-model="optTwo"
+                :label="`Mileage cost`"
+              ></v-checkbox>
+            </v-col>
+            <v-col cols="2">
+              <v-checkbox
+                name="taxis"
+                v-model="optThree"
+                :label="`Taxis`"
+              ></v-checkbox>
+            </v-col>
+            <v-col cols="3">
+              <v-checkbox
+                name="carParking"
+                v-model="optFour"
+                :label="`Car parking`"
+              ></v-checkbox>
+            </v-col>
+            <v-col cols="2">
+              <v-checkbox
+                name="otherFees"
+                v-model="optFive"
+                :label="`Other`"
+              ></v-checkbox>
+            </v-col>
+          </v-row>
+          <v-row v-if="optFive" no-gutters>
             <v-textarea
-             label="Details for other fees"
-             auto-grow 
-             required 
-             :rules="detailsRules" 
-             outlined
-             ></v-textarea>
+              label="Details for other fees"
+              auto-grow
+              required
+              :rules="detailsRules"
+              outlined
+            ></v-textarea>
           </v-row>
         </v-container>
         <v-row no-gutters>
@@ -134,32 +158,33 @@ export default {
     optFive: false,
     optionsShown: false,
     feeRules: [
-      v => !!v || "Fees are required",
-      v => !(v < 0) || "Fees can not be less than 0",
-      v => !(v > 999999.99) || "Fees can not be greater than 999999.99"
+      (v) => !!v || "Fees are required",
+      (v) => !(v < 0) || "Fees can not be less than 0",
+      (v) => !(v > 999999.99) || "Fees can not be greater than 999999.99",
     ],
     travelRules: [
-      v => !!v || "Travel expenses are required",
-      v => !(v < 0) || "Travel expenses can not be less than 0",
-      v =>
-        !(v > 999999.99) || "Travel expenses can not be greater than 999999.99"
+      (v) => !!v || "Travel expenses are required",
+      (v) => !(v < 0) || "Travel expenses can not be less than 0",
+      (v) =>
+        !(v > 999999.99) || "Travel expenses can not be greater than 999999.99",
     ],
     accRules: [
-      v => !!v || "Accomodation expenses are required",
-      v => !(v < 0) || "Accomodation expenses can not be less than 0",
-      v =>
+      (v) => !!v || "Accomodation expenses are required",
+      (v) => !(v < 0) || "Accomodation expenses can not be less than 0",
+      (v) =>
         !(v > 999999.99) ||
-        "Accomodation expenses can not be greater than 999999.99"
+        "Accomodation expenses can not be greater than 999999.99",
     ],
     othRules: [
-      v => !(v < 0) || "Other fees can not be less than 0",
-      v => !(v > 999999.99) || "Other fees can not be greater than 999999.99"
+      (v) => !(v < 0) || "Other fees can not be less than 0",
+      (v) => !(v > 999999.99) || "Other fees can not be greater than 999999.99",
     ],
     subRules: [
-      v => !(v < 0) || "Subsistence can not be less than 0",
-      v => !(v > 999999.99) || "Subsistance can not be greater than 999999.99"
+      (v) => !(v < 0) || "Subsistence can not be less than 0",
+      (v) =>
+        !(v > 999999.99) || "Subsistance can not be greater than 999999.99",
     ],
-    detailsRules: [v => !!v || "Details are required"]
+    detailsRules: [(v) => !!v || "Details are required"],
   }),
   computed: {
     totalValue() {
@@ -179,13 +204,16 @@ export default {
       else if (!isNaN(total) && total < 0)
         return "Entered amount for subsistence is too great";
       else return "";
-      },
+    },
     complete() {
-      if (this.feeValue != "" && this.travelValue != "" && this.accValue != "") {
+      if (
+        this.feeValue != "" &&
+        this.travelValue != "" &&
+        this.accValue != ""
+      ) {
         return true;
-      } else
-        return false;
-    }
+      } else return false;
+    },
   },
 };
 </script>

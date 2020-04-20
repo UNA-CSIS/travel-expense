@@ -10,35 +10,34 @@
     </v-card>
     <v-navigation-drawer v-model="drawer" app class="purple">
       <v-container>
-      <v-btn width="100%" color="yellow" light href="/login">
-        <span>Login</span>
-      </v-btn>
-      <br />
+        <v-btn width="100%" color="yellow" light href="/login">
+          <span>Login</span>
+        </v-btn>
+        <br />
       </v-container>
       <v-container>
-      <v-btn width="100%" color="yellow" light href="/about">
-        <span>About</span>
-      </v-btn>
-      <br />
+        <v-btn width="100%" color="yellow" light href="/about">
+          <span>About</span>
+        </v-btn>
+        <br />
       </v-container>
       <v-container v-if="this.loggedIn">
-      <v-btn width="100%" color="yellow" light v-on:click="formPage">
-        <span>Forms</span>
-      </v-btn>
-      <br />
+        <v-btn width="100%" color="yellow" light v-on:click="formPage">
+          <span>Forms</span>
+        </v-btn>
+        <br />
       </v-container>
-  
+
       <v-container v-if="this.admin">
-        
-      <v-btn width="100%" color="yellow" light v-on:click="chairPage">
-        <span>Chair View</span>
-      </v-btn>
-      <br />
+        <v-btn width="100%" color="yellow" light v-on:click="chairPage">
+          <span>Chair View</span>
+        </v-btn>
+        <br />
       </v-container>
       <v-container>
-      <v-btn width="100%" color="yellow" light v-on:click="logout">
-        <span>Log Out</span>
-      </v-btn>
+        <v-btn width="100%" color="yellow" light v-on:click="logout">
+          <span>Log Out</span>
+        </v-btn>
       </v-container>
     </v-navigation-drawer>
   </nav>
@@ -49,53 +48,45 @@ export default {
   data: () => ({
     loggedIn: false,
     admin: false,
-    drawer: false
+    drawer: false,
   }),
 
   mounted: function() {
     this.getPermissions();
   },
-  
+
   methods: {
     open() {
       this.getPermissions();
-      this.drawer=!this.drawer;
+      this.drawer = !this.drawer;
     },
     getPermissions() {
-      if(this.$session.exists()) {
+      if (this.$session.exists()) {
         this.loggedIn = true;
-        if(this.$session.get('admin'))
-          this.admin = true;
+        if (this.$session.get("admin")) this.admin = true;
       }
     },
     logout() {
-        this.admin = false;
-        this.loggedIn = false;
-        this.$session.destroy();
-        this.$router.push('/login');
-        
+      this.admin = false;
+      this.loggedIn = false;
+      this.$session.destroy();
+      this.$router.push("/login");
     },
 
     formPage() {
-      if(this.$session.exists()) {
-        this.$router.push('/');
-      }
-      else {
+      if (this.$session.exists()) {
+        this.$router.push("/");
+      } else {
         alert("Invalid permission");
       }
     },
 
     chairPage() {
-      if(this.$session.exists()) {
-        if(this.$session.get('admin'))
-            this.$router.push('/chairView');
-        else 
-            alert("Invalid permission");
-      }
-      else 
-        alert("Invalid permission");
-      
-    }
-  }
+      if (this.$session.exists()) {
+        if (this.$session.get("admin")) this.$router.push("/chairView");
+        else alert("Invalid permission");
+      } else alert("Invalid permission");
+    },
+  },
 };
 </script>
