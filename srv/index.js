@@ -213,7 +213,7 @@ app.get('/api/form', function(request, response) {
         if(result == null) 
           console.log("Couldn't find a form");
         else 
-          data.push({name: result.name, location: result.destination, date: 
+          data.push({name: result.name, location: result.dest, date: 
             result.travelDates, confirmed: result.confirmed, _id: result._id});
       }).then(function() {
         response.send(data);
