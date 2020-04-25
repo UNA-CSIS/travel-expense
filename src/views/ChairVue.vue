@@ -34,6 +34,7 @@
           >Get Details</v-btn
         >
       </v-layout>
+      <br />
     </v-card>
   </v-container>
   <v-container v-else>
@@ -68,10 +69,13 @@
         <v-btn v-on:click="denyReport" color="primary">Deny Trip Payment</v-btn
         ><v-spacer></v-spacer
       ></v-row>
+      <br />
     </v-card>
   </v-container>
 </template>
 <script>
+const NETPATH = "http://192.168.0.36"
+
 import axios from "axios";
 export default {
   computed: {
@@ -116,7 +120,7 @@ export default {
     //Retrieves forms from the database
     loadForms() {
       axios
-        .get("http://localhost:8888/api/form")
+        .get(NETPATH + ":8888/api/form")
         .then((response) => {
           this.submittedForms = response.data;
         })
@@ -129,7 +133,7 @@ export default {
       this.showTable = false;
       axios({
         method: "post",
-        url: "http://localhost:8888/api/formDetail",
+        url: NETPATH + ":8888/api/formDetail",
 
         data: {
           name: this.selected[0].name,
@@ -146,7 +150,7 @@ export default {
     confirmReport() {
       axios({
         method: "put",
-        url: "http://localhost:8888/api/form",
+        url: NETPATH + ":8888/api/form",
         data: {
           name: this.details.name,
           department: this.details.department,
@@ -169,7 +173,7 @@ export default {
       } else {
         axios({
           method: "delete",
-          url: "http://localhost:8888/api/form",
+          url: NETPATH + ":8888/api/form",
           data: {
             name: this.details.name,
             department: this.details.department,

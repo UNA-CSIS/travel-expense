@@ -7,7 +7,6 @@
  * from the Vue website and returns any needed data. Communicates
  * with a MongoDB database where forms and user information are stored
  */
-
 const bcrypt = require('bcrypt');
 const cors = require('cors');
 const express = require ('express');
@@ -19,7 +18,7 @@ const deptChairEmail = "jmorris0899@yahoo.com"
 const saltRounds = 10;
 const app = express();
 const url='mongodb://localhost:27017/';
-const homepage = "http://localhost:8080";
+const homepage =  "http://localhost:8080";
 const login = "http://localhost:8080/login";
 
 /* 

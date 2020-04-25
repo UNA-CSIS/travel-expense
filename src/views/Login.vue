@@ -5,7 +5,7 @@
         <v-card-title class="justify-center">Login</v-card-title>
         <!--
           This portion is for the login form
-        -->
+          -->
         <v-form>
           <v-row no-gutters>
             <v-spacer></v-spacer>
@@ -52,13 +52,13 @@
             <v-spacer></v-spacer>
           </v-row>
         </v-form>
-        <br />
+        <br>
       </v-card>
     </v-layout>
   </v-container>
   <!--
     This portion is for the user sign up form
-  -->
+    -->
   <v-container v-else>
     <v-layout justify-center align-center column>
       <v-card width="40%">
@@ -123,13 +123,16 @@
             <v-spacer></v-spacer>
           </v-row>
         </v-form>
-        <br />
+        <br>
       </v-card>
     </v-layout>
   </v-container>
 </template>
 
 <script>
+//This constant is the ip of the server running the application
+const NETPATH = "http://192.168.0.36"
+
 import axios from "axios";
 export default {
   components: {},
@@ -146,7 +149,7 @@ export default {
     login() {
       axios({
         method: "post",
-        url: "http://localhost:8888/api/login",
+        url: NETPATH + ":8888/api/login",
         data: {
           username: this.username,
           password: this.password
@@ -168,7 +171,7 @@ export default {
     signUp() {
       axios({
         method: "post",
-        url: "http://localhost:8888/api/createAcc",
+        url: NETPATH + ":8888/api/createAcc",
         data: {
           username: this.username,
           password: this.password,

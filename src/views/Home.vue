@@ -2,7 +2,7 @@
   This file is the main form mounting the form steps
 -->
 <template>
-  <v-form method="post" action="http://localhost:8888/api/user">
+  <v-form method="post" action="http://192.168.0.36:8888/api/user">
     <v-stepper v-model="e1" class="mt-12">
       <v-stepper-header>
         <v-stepper-step step="1" editable :complete="e1 > 1"
@@ -76,6 +76,7 @@
                 color="primary"
                 :disabled="!stepThreeComplete"
                 @click="e1 = 4"
+                href="Home"
                 >Submit</v-btn
               >
             </v-col>
