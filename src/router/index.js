@@ -33,6 +33,11 @@ const routes = [
     path: '/chairView',
     name: 'ChairView',
     component:() => import('../views/ChairVue.vue')
+  },
+  {
+    path: '/success',
+    name: 'Success',
+    component:() => import('../views/Success.vue')
   }
 ]
 
