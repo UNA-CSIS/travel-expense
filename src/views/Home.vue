@@ -1,5 +1,5 @@
 <!--
-  This file is the main form mounting the form steps
+  This file is the location mounting the 3 form steps
 -->
 <template>
   <v-form method="post" action="http://192.168.0.36:8888/api/user">
@@ -26,6 +26,7 @@
               :value="this.username"
             ></v-text-field>
           </v-row>
+          <!-- Step One -->
           <stepOne />
 
           <v-row no-gutters>
@@ -44,6 +45,7 @@
           </v-row>
         </v-stepper-content>
         <v-stepper-content :step="2">
+          <!-- Step Two -->
           <stepTwo />
           <v-row no-gutters>
             <v-col cols="5"></v-col>
@@ -64,6 +66,7 @@
           </v-row>
         </v-stepper-content>
         <v-stepper-content :step="3">
+          <!-- Step Three -->
           <stepThree />
           <v-row no-gutters>
             <v-col cols="5"></v-col>
@@ -98,6 +101,7 @@ export default {
     stepTwo,
     stepThree,
   },
+  //Ensures youre logged in
   beforeCreate: function() {
     if (!this.$session.exists()) {
       this.$router.push("/login");
@@ -108,19 +112,20 @@ export default {
     this.username = this.$session.get("username");
   },
   data: () => ({
+    //Current step that the stepper is on
     e1: 1,
+    //Currently dummy variables
     stepOneComplete: true,
     stepTwoComplete: true,
     stepThreeComplete: true,
+    //For use in allowing backtracking in stepper
     stepTwoEditable: false,
     stepThreeEditable: false,
+    //For use in checking if user is logged in
     username: "",
   }),
   computed: {
-    bDis(e1) {
-      if (e1 == 1) return true;
-      else return false;
-    },
+
   },
 };
 </script>
