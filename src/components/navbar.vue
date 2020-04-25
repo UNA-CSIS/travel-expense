@@ -8,7 +8,7 @@
         </v-toolbar-title>
       </v-app-bar>
     </v-card>
-    <v-navigation-drawer v-model="drawer" app class="purple">
+    <v-navigation-drawer v-model="drawer" app temporary class="deep-purple accent-10">
       <v-container>
         <v-btn width="100%" color="yellow" light href="/login">
           <span>Login</span>
@@ -34,7 +34,7 @@
         </v-btn>
         <br />
       </v-container>
-      <v-container>
+      <v-container v-if="this.loggedIn">
         <v-btn width="100%" color="yellow" light v-on:click="logout">
           <span>Log Out</span>
         </v-btn>
