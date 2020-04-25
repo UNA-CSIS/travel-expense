@@ -1,3 +1,6 @@
+/*
+* This file is used for link routing
+*/
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'

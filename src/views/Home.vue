@@ -1,3 +1,6 @@
+<!--
+  This file is the main form mounting the form steps
+-->
 <template>
   <v-form method="post" action="http://localhost:8888/api/user">
     <v-stepper v-model="e1" class="mt-12">

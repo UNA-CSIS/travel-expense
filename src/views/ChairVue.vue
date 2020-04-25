@@ -1,3 +1,6 @@
+<!--
+  This file is used to show the department chair  view
+-->
 <template>
   <v-container v-if="showTable">
     <v-card>
@@ -110,6 +113,7 @@ export default {
     }
   },
   methods: {
+    //Retrieves forms from the database
     loadForms() {
       axios
         .get("http://localhost:8888/api/form")
@@ -120,6 +124,7 @@ export default {
           console.log(error);
         });
     },
+    //Gives a summary of the information
     getDetails() {
       this.showTable = false;
       axios({
@@ -137,6 +142,7 @@ export default {
         delete this.details._id;
       });
     },
+    //Allows the department chair to confirm report
     confirmReport() {
       axios({
         method: "put",
@@ -155,6 +161,7 @@ export default {
         this.showTable = true;
       });
     },
+    //Allows the department chair to deny the form
     denyReport() {
       var reasonForDenial = prompt("Enter a reason for the denial");
       if (reasonForDenial == null || reasonForDenial == "") {
