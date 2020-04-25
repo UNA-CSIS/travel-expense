@@ -5,7 +5,7 @@
         <v-card-title class="justify-center">Login</v-card-title>
         <!--
           This portion is for the login form
-          -->
+        -->
         <v-form>
           <v-row no-gutters>
             <v-spacer></v-spacer>
@@ -52,13 +52,13 @@
             <v-spacer></v-spacer>
           </v-row>
         </v-form>
-        <br>
+        <br />
       </v-card>
     </v-layout>
   </v-container>
   <!--
     This portion is for the user sign up form
-    -->
+  -->
   <v-container v-else>
     <v-layout justify-center align-center column>
       <v-card width="40%">
@@ -112,11 +112,18 @@
           </v-row>
           <v-row>
             <v-spacer></v-spacer>
+            <v-btn
+              v-on:click="signUpForm = !signUpForm"
+              justify="center"
+              align="center"
+              color="primary"
+            >Back</v-btn>
+            <v-spacer></v-spacer>
             <v-btn v-on:click="signUp" justify="center" align="center" color="primary">Submit</v-btn>
             <v-spacer></v-spacer>
           </v-row>
         </v-form>
-        <br>
+        <br />
       </v-card>
     </v-layout>
   </v-container>
