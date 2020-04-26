@@ -7,6 +7,8 @@
  * from the Vue website and returns any needed data. Communicates
  * with a MongoDB database where forms and user information are stored
  */
+const NETPATH = "192.168.0.36";
+
 const bcrypt = require('bcrypt');
 const cors = require('cors');
 const express = require ('express');
@@ -18,8 +20,8 @@ const deptChairEmail = "jmorris0899@yahoo.com"
 const saltRounds = 10;
 const app = express();
 const url='mongodb://localhost:27017/';
-const homepage =  "http://localhost:8080";
-const login = "http://localhost:8080/login";
+const success =  "http://" + NETPATH + ":8080/Success";
+const login = "http://" + NETPATH + ":8080/login";
 
 /* 
  * Server's email information. This is the email account
@@ -103,7 +105,7 @@ export default (app, http) => {
       });
     }
     });
-    response.redirect(homepage);
+    response.redirect(success);
   });
     
   /*
@@ -140,13 +142,13 @@ export default (app, http) => {
                   }
                   //Unsuccessful login
                   else 
-                    response.send({message: "Wrong username/password"});
+                    response.send({message: "Invalid username/password"});
                 });
               }
             }
             //Unsuccessful login
             else 
-              response.send({message: "Wrong username/password"});
+              response.send({message: "Invalid username/password"});
           });
           client.close();
         });

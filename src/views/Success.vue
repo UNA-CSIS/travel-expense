@@ -1,6 +1,6 @@
 <template>
   <!--
-    This is for the about page. Everything before the "GENERAL INFORMATION" page will always be shown
+    This is a way to show that the user has successfully completed the form and submitted it
   -->
   <div>
     <v-layout justify-center align-center>
@@ -22,16 +22,6 @@
 <script>
 export default {
   data: () => ({
-    //Determines if the "GENERAL INFORMATION" v-card and all v-containers past this shows
-    generalText: false,
-    //Determines if the "TRAVEL STATUS" v-carcontainer shows
-    travelStatus: false,
-    //Determines if the "CLAIM FOR TRAVEL EXPENSES" v-container shows
-    travelClaim: false,
-    //Determines if the "DOCUMENTATION OF COSTS/APPROVAL of TRAVEL REIMBURSEMENT" v-container shows
-    documentation: false,
-    //Determines if the "OTHER INFORMATION" v-container shows
-    other: false
   })
 };
 </script>

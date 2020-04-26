@@ -56,7 +56,7 @@
           </tr>
         </tbody>
       </v-simple-table>
-
+      <br />
       <v-row
         ><v-spacer></v-spacer
         ><v-btn v-on:click="showTable = !showTable" color="primary"

@@ -5,26 +5,16 @@
   <v-form method="post" action="http://192.168.0.36:8888/api/user">
     <v-stepper v-model="e1" class="mt-12">
       <v-stepper-header>
-        <v-stepper-step step="1" editable :complete="e1 > 1"
-          >General Information</v-stepper-step
-        >
+        <v-stepper-step step="1" editable :complete="e1 > 1">General Information</v-stepper-step>
         <v-divider></v-divider>
-        <v-stepper-step step="2" editable :complete="e1 > 2"
-          >Estimated Costs</v-stepper-step
-        >
+        <v-stepper-step step="2" editable :complete="e1 > 2">Estimated Costs</v-stepper-step>
         <v-divider></v-divider>
-        <v-stepper-step step="3" editable :complete="e1 > 3"
-          >Activity Information</v-stepper-step
-        >
+        <v-stepper-step step="3" editable :complete="e1 > 3">Activity Information</v-stepper-step>
       </v-stepper-header>
       <v-stepper-items>
         <v-stepper-content :step="1">
           <v-row no-gutters>
-            <v-text-field
-              name="username"
-              type="hidden"
-              :value="this.username"
-            ></v-text-field>
+            <v-text-field name="username" type="hidden" :value="this.username"></v-text-field>
           </v-row>
           <!-- Step One -->
           <stepOne />
@@ -39,8 +29,7 @@
                   e1 = 2;
                   stepTwoEditable = true;
                 "
-                >Next</v-btn
-              >
+              >Next</v-btn>
             </v-col>
           </v-row>
         </v-stepper-content>
@@ -60,8 +49,7 @@
                   e1 = 3;
                   stepThreeEditable = true;
                 "
-                >Next</v-btn
-              >
+              >Next</v-btn>
             </v-col>
           </v-row>
         </v-stepper-content>
@@ -79,9 +67,7 @@
                 color="primary"
                 :disabled="!stepThreeComplete"
                 @click="e1 = 4"
-                href="Success"
-                >Submit</v-btn
-              >
+              >Submit</v-btn>
             </v-col>
           </v-row>
         </v-stepper-content>
@@ -99,7 +85,7 @@ export default {
   components: {
     stepOne,
     stepTwo,
-    stepThree,
+    stepThree
   },
   //Ensures youre logged in
   beforeCreate: function() {
@@ -122,10 +108,8 @@ export default {
     stepTwoEditable: false,
     stepThreeEditable: false,
     //For use in checking if user is logged in
-    username: "",
+    username: ""
   }),
-  computed: {
-
-  },
+  computed: {}
 };
 </script>
