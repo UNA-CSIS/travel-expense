@@ -2,6 +2,9 @@
   This file is the location mounting the 3 form steps
 -->
 <template>
+<!--
+  This is the path for routing, should be set to the ip that the server will be running on
+-->
   <v-form method="post" action="http://192.168.0.36:8888/api/user">
     <v-stepper v-model="e1" class="mt-12">
       <v-stepper-header>

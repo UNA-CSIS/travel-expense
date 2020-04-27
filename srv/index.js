@@ -7,6 +7,9 @@
  * from the Vue website and returns any needed data. Communicates
  * with a MongoDB database where forms and user information are stored
  */
+
+
+//This is the path for routing, should be set to the ip that the server will be running on
 const NETPATH = "192.168.0.36";
 
 const bcrypt = require('bcrypt');
@@ -91,7 +94,7 @@ export default (app, http) => {
               from: 'UNATravelForm@gmail.com',
               to: result.email,
               subject: 'Travel Request Submitted',
-              text: "Your travel request form has been submitted. You will be emailed again when it is confirmed/denied"
+              text: "Your travel request form has been submitted. You will be emailed again when it is confirmed/denied."
             };
 
             serverEmailAccount.sendMail(mailOptions, function(error, info) {

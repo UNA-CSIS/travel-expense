@@ -74,6 +74,7 @@
   </v-container>
 </template>
 <script>
+//This is the path for routing, should be set to the ip that the server will be running on
 const NETPATH = "http://192.168.0.36"
 
 import axios from "axios";
